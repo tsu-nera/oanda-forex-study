@@ -1,0 +1,10 @@
+*~
+#*
+*.pyc
+/.project
+/GPATH
+/GRTAGS
+/GTAGS
+/old/
+/data/
+/settings.py
