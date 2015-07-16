@@ -21,8 +21,9 @@ class SimulatedExecutionHandler(ExecutionHandler):
 
 class OANDAExecutionHandler(ExecutionHandler):
 
-    def __init__(self):
+    def __init__(self, status):
         self.oanda = oandapy.API("practice", ACCESS_TOKEN)
+        self.status = status
 
     def execute_order(self, event):
         response = self.oanda.create_order(
@@ -33,8 +34,10 @@ class OANDAExecutionHandler(ExecutionHandler):
             type='market')
 
         if response is not None:
-            self.executed_price = float(response["price"])
-            print("Placed order %s %s %s at market." % \
+            # 購入時の値段を記録
+            self.status["executed_price"] = float(response["price"])
+
+            print("Placed order %s %s %s at market." %
                   (event.side, 1000, event.instrument))
             return True  # Order is successful
 

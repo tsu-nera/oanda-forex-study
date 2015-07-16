@@ -6,8 +6,6 @@ from datetime import datetime
 class SMAStrategy:
     def __init__(self, events, status):
 
-        self.instrument = "EUR_USD"
-        self.qty = 1000
         self.resample_interval = '15s'
 
         self.mean_period_short = 5
@@ -42,43 +40,43 @@ class SMAStrategy:
             self.mean_period_long).mean()[0]
         self.beta = mean_short / mean_long
 
-        self.print_tick_data(event, round(self.beta, 5))
+        self.print_status(event, self.beta)
 
-        return self.perform_trade_logic(self.beta)
+        return self.perform_trade_logic(event)
 
         # self.calculate_unrealized_pnl(event.bid, event.ask)
         # self.print_status()
 
-    def perform_trade_logic(self, beta):
-        if beta > self.buy_threshold:
+    def perform_trade_logic(self, event):
+        if self.beta > self.buy_threshold:
             if not self.status["open_position"] \
                     or self.position < 0:
-                signal = SignalEvent(self.instrument, "market", "buy")
+                signal = SignalEvent(event.instrument, "market", "buy")
                 self.events.put(signal)
                 return True
 
-        elif beta < self.sell_threshold:
+        elif self.beta < self.sell_threshold:
             if not self.status["open_position"] \
                     or self.position > 0:
-                signal = SignalEvent(self.instrument, "market", "sell")
+                signal = SignalEvent(event.instrument, "market", "sell")
                 self.events.put(signal)
                 return True
 
         return False
 
     def print_tick_data(self, event, info):
-        print("[%s] %s bid=%s, ask=%s, info=%s" % (
+        print("[%s] %s info=%s" % (
             datetime.now().time(),
             event.instrument,
             event.bid,
             event.ask,
             info))
 
-    def print_status(self):
-        print("[%s] %s pos=%s beta=%s RPnL=%s UPnL=%s" % (
+    def print_status(self, event, info):
+        print("[%s] %s pos=%s info=%s RPnL=%s UPnL=%s" % (
             datetime.now().time(),
-            self.instrument,
-            self.position,
-            round(self.beta, 5),
-            self.realized_pnl,
-            self.unrealized_pnl))
+            event.instrument,
+            self.status["position"],
+            round(info, 5),
+            round(self.status["realized_pnl"], 5),
+            round(self.status["unrealized_pnl"], 5)))
