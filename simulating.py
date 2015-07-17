@@ -2,20 +2,16 @@ import queue
 import threading
 
 from execution import OANDAExecutionHandler
-from settings import ACCESS_TOKEN, ACCOUNT_ID
-from streaming import StreamingForexPrices
 
 from main import Main
-# from parser import HistoricCSVPriceHandler
+from parser import HistoricCSVPriceHandler
 from sma_strategy import SMAStrategy
 from portfolio import Portfolio
 
 if __name__ == "__main__":
     events = queue.Queue()  # 同期キュー
 
-    prices = StreamingForexPrices(environment="practice",
-                                  access_token=ACCESS_TOKEN)
-#    prices = HistoricCSVPriceHandler("EUR_USD", events, "")
+    prices = HistoricCSVPriceHandler("EUR_USD", events, "")
 
     status = dict()  # tick をまたいで記憶しておきたい情報
 
@@ -26,16 +22,13 @@ if __name__ == "__main__":
 
     execution = OANDAExecutionHandler(status)  # 売買注文
 
-    main = Main(0.5)
+    main = Main(0)
 
     trade_thread = threading.Thread(target=main.on_tick,
                                     args=[events, strategies,
                                           execution, portfolio])
 
-#    price_thread = threading.Thread(target=prices.stream_to_queue, args=[])
-    price_thread = threading.Thread(target=prices.begin, args=[
-        ACCOUNT_ID, "EUR_USD", events
-    ])
+    price_thread = threading.Thread(target=prices.stream_to_queue, args=[])
 
     trade_thread.start()
     price_thread.start()

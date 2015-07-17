@@ -50,14 +50,14 @@ class SMAStrategy:
     def perform_trade_logic(self, event):
         if self.beta > self.buy_threshold:
             if not self.status["open_position"] \
-                    or self.position < 0:
+               or self.status["position"] < 0:
                 signal = SignalEvent(event.instrument, "market", "buy")
                 self.events.put(signal)
                 return True
 
         elif self.beta < self.sell_threshold:
             if not self.status["open_position"] \
-                    or self.position > 0:
+               or self.status["position"] > 0:
                 signal = SignalEvent(event.instrument, "market", "sell")
                 self.events.put(signal)
                 return True
