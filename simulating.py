@@ -2,10 +2,21 @@ import queue
 
 from execution import SimulatedExecutionHandler
 
-from main import Main
 from parser import HistoricCSVPriceHandler
 from sma_strategy import SMAStrategy
 from portfolio import PortfolioLocal
+from progressbar import ProgressBar
+
+
+def simulating():
+    progress = ProgressBar(events.qsize()).start()
+    for i in range(events.qsize()):
+        event = events.get(False)
+        # ストラテジチェック
+        for strategy in strategies:
+            if(strategy.check(event)):
+                break
+        progress.update(i + 1)
 
 if __name__ == "__main__":
     events = queue.Queue()  # 同期キュー
@@ -22,14 +33,13 @@ if __name__ == "__main__":
     strategy = SMAStrategy(events, status, execution, portfolio)
     strategies = set([strategy])
 
-    main = Main(False)
-
-    print("=== Backtesting Start === ")
+    print("=== Backtesting Start =================================== ")
 
     prices.stream_to_queue()
-    main.on_tick(events, strategies)
 
-    print("=== End .... v(^_^)v  === ")
+    simulating()
+
+    print("=== End .... v(^_^)v  =================================== ")
 
     import matplotlib.pyplot as plt
     plt.plot(strategy.prices.index, strategy.prices)
@@ -38,4 +48,3 @@ if __name__ == "__main__":
 
     portfolio.rpnl.plot()
     plt.show()
-
