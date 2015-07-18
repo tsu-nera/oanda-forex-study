@@ -15,7 +15,8 @@ if __name__ == "__main__":
     status = dict()  # tick をまたいで記憶しておきたい情報
     status["heartbeat"] = 0
 
-    strategies = set([SMAStrategy(events, status)])
+    strategy = SMAStrategy(events, status)
+    strategies = set([strategy])
 
     portfolio = PortfolioLocal(status)
 
@@ -29,3 +30,10 @@ if __name__ == "__main__":
     main.on_tick(events, strategies, execution, portfolio)
 
     print("=== End .... v(^_^)v  === ")
+
+    import matplotlib.pyplot as plt
+    plt.plot(strategy.prices.index, strategy.prices)
+    plt.plot(strategy.buys.index, strategy.buys, "ro")
+    plt.plot(strategy.sells.index, strategy.sells, "go")
+    plt.show()
+

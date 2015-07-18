@@ -1,6 +1,5 @@
 import pandas as pd
 from event import SignalEvent
-from datetime import datetime
 
 
 class SMAStrategy:
@@ -14,6 +13,9 @@ class SMAStrategy:
         self.sell_threshold = 1.0
 
         self.prices = pd.DataFrame()
+        self.buys = pd.DataFrame()
+        self.sells = pd.DataFrame()
+
         self.beta = 0
         self.opening_price = 0
         self.executed_price = 0
@@ -40,12 +42,7 @@ class SMAStrategy:
             self.mean_period_long).mean()[0]
         self.beta = mean_short / mean_long
 
-        # self.print_status(event, self.beta)
-
         return self.perform_trade_logic(event)
-
-        # self.calculate_unrealized_pnl(event.bid, event.ask)
-        # self.print_status()
 
     def perform_trade_logic(self, event):
         if self.beta > self.buy_threshold:
@@ -53,6 +50,7 @@ class SMAStrategy:
                or self.status["position"] < 0:
                 signal = SignalEvent(event.instrument,
                                      "market", "buy", event.bid)
+                self.buys.loc[event.time, event.instrument] = event.bid
                 self.events.put(signal)
                 return True
 
@@ -61,24 +59,8 @@ class SMAStrategy:
                or self.status["position"] > 0:
                 signal = SignalEvent(event.instrument,
                                      "market", "sell", event.ask)
+                self.sells.loc[event.time, event.instrument] = event.bid
                 self.events.put(signal)
                 return True
 
         return False
-
-    def print_tick_data(self, event, info):
-        print("[%s] %s info=%s" % (
-            datetime.now().time(),
-            event.instrument,
-            event.bid,
-            event.ask,
-            info))
-
-    def print_status(self, event, info):
-        print("[%s] %s pos=%s info=%s RPnL=%s UPnL=%s" % (
-            datetime.now().time(),
-            event.instrument,
-            self.status["position"],
-            round(info, 5),
-            round(self.status["realized_pnl"], 5),
-            round(self.status["unrealized_pnl"], 5)))

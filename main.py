@@ -22,14 +22,13 @@ class Main():
                         if(strategy.check(event)):
                             break
                 elif event.type == 'SIGNAL':
-                    print("signal event")
                     # 売り買いの実行
                     execution.execute_order(event)
 
                     # ポートフォリオ更新
                     portfolio.update_portfolio(event)
 
-            if not self.is_real:  # シミュレーションの場合は抜ける
+            if not self.is_real:   # シミュレーションの場合は抜ける
                 break
 
             time.sleep(self.heartbeat)

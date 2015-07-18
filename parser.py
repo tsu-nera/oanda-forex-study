@@ -41,11 +41,12 @@ class HistoricCSVPriceHandler(PriceHandler):
     def stream_to_queue(self):
         self._open_convert_csv_files()
         for index, row in self.pair:
-            self.cur_bid = Decimal(str(row["Bid"])).quantize(
-                Decimal("0.00001", ROUND_HALF_DOWN)
-            )
-            self.cur_ask = Decimal(str(row["Ask"])).quantize(
-                Decimal("0.00001", ROUND_HALF_DOWN)
-            )
-            tev = TickEvent(self.pairs[0], index, row["Bid"], row["Ask"])
+            # self.cur_bid = Decimal(str(row["Bid"])).quantize(
+            #     Decimal("0.00001", ROUND_HALF_DOWN)
+            # )
+            # self.cur_ask = Decimal(str(row["Ask"])).quantize(
+            #     Decimal("0.00001", ROUND_HALF_DOWN)
+            # )
+            # tev = TickEvent(self.pairs[0], index, self.cur_bid, self.cur_ask)
+            tev = TickEvent(self.pairs, index, row["Bid"], row["Ask"])
             self.events_queue.put(tev)
