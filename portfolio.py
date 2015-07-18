@@ -10,17 +10,23 @@ class Portfolio():
 
         self.unit = 1000
         self.status = status
+        self.order_count = 0
+        self.total_profit = 0
+        self.total_loss = 0
 
         status["opening_price"] = 0
         status["executed_price"] = 0
         status["unrealized_pnl"] = 0
         status["realized_pnl"] = 0
+
         self.rpnl = pd.DataFrame()
 
         self.oanda = oandapy.API("practice", ACCESS_TOKEN)
 
     def update_portfolio(self, event):
         # Update position upon successful order
+        self.order_count += 1
+
         if event.side == "buy":
             self.status["position"] += self.unit
         else:
@@ -35,10 +41,16 @@ class Portfolio():
             self.status["open_position"] = True
 
     def calculate_realized_pnl(self, event):
-        self.status["realized_pnl"] += self.unit * (
+        current_pnl = self.unit * (
             (self.status["opening_price"] - self.status["executed_price"])
             if event.side == "buy" else
             (self.status["executed_price"] - self.status["opening_price"]))
+        self.status["realized_pnl"] += current_pnl
+
+        if current_pnl > 0:
+            self.total_profit += current_pnl
+        else:
+            self.total_loss -= current_pnl
 
 class PortfolioRemote(Portfolio):
     def show_current_status(self, event):

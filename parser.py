@@ -32,7 +32,8 @@ class HistoricCSVPriceHandler(PriceHandler):
         Opens the CSV files from the data directory, converting
         them into pandas DataFrames within a pairs dictionary.
         """
-        pair_path = "data/EURUSD_Candlestick_15_s_BID_17.07.2015-17.07.2015.csv"
+#        pair_path = "data/EURUSD_Candlestick_15_s_BID_17.07.2015-17.07.2015.csv"
+        pair_path = "data/EURUSD_Candlestick_15_s_BID_16.07.2015-16.07.2015.csv"
         self.pair = pd.io.parsers.read_csv(
             pair_path, header=True, index_col=0, parse_dates=True,
             names=("Time", "Ask", "Bid", "AskVolume", "BidVolume")

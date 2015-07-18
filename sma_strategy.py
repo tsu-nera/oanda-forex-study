@@ -11,17 +11,11 @@ class SMAStrategy:
         self.mean_period_long = 20
         self.buy_threshold = 1.0
         self.sell_threshold = 1.0
+        self.beta = 0
 
         self.prices = pd.DataFrame()
         self.buys = pd.DataFrame()
         self.sells = pd.DataFrame()
-
-        self.beta = 0
-        self.opening_price = 0
-        self.executed_price = 0
-        self.unrealized_pnl = 0
-        self.realized_pnl = 0
-        self.position = 0
 
         self.events = events
         self.status = status
@@ -73,5 +67,5 @@ class SMAStrategy:
                                  "market", "sell", event.ask)
             self.sells.loc[event.time, event.instrument] = event.ask
 
-        self.execution.execute_order(signal)  # 売り買いの実行
+        self.execution.execute_order(signal)     # 売り買いの実行
         self.portfolio.update_portfolio(signal)  # ポートフォリオ更新

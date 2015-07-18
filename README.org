@@ -2,3 +2,9 @@
   - python3.xで動作
   - バックテスト用データは以下から取得.
   https://www.dukascopy.com/swiss/english/marketwatch/historical/
+
+* 依存ライブラリ
+  - pandas
+  - matplotlib
+  - progress2
+
