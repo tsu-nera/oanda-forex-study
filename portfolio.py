@@ -69,4 +69,9 @@ class PortfolioRemote(Portfolio):
     
 class PortfolioLocal(Portfolio):
     def show_current_status(self, event):
-        pass
+        print("[%s] %s pos=%s RPnL=%s UPnL=%s" % (
+            datetime.now().time(),
+            event.instrument,
+            self.status["position"],
+            round(self.status["realized_pnl"], 5),
+            round(self.status["unrealized_pnl"], 5)))

@@ -15,19 +15,19 @@ if __name__ == "__main__":
     status = dict()  # tick をまたいで記憶しておきたい情報
     status["heartbeat"] = 0
 
-    strategy = SMAStrategy(events, status)
-    strategies = set([strategy])
-
     portfolio = PortfolioLocal(status)
 
     execution = SimulatedExecutionHandler(status)
+
+    strategy = SMAStrategy(events, status, execution, portfolio)
+    strategies = set([strategy])
 
     main = Main(False)
 
     print("=== Backtesting Start === ")
 
     prices.stream_to_queue()
-    main.on_tick(events, strategies, execution, portfolio)
+    main.on_tick(events, strategies)
 
     print("=== End .... v(^_^)v  === ")
 

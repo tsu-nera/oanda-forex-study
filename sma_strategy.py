@@ -3,7 +3,7 @@ from event import SignalEvent
 
 
 class SMAStrategy:
-    def __init__(self, events, status):
+    def __init__(self, events, status, execution, portfolio):
 
         self.resample_interval = '15s'
 
@@ -25,6 +25,8 @@ class SMAStrategy:
 
         self.events = events
         self.status = status
+        self.execution = execution
+        self.portfolio = portfolio
 
     def check(self, event):
         self.prices.loc[event.time, event.instrument] = event.bid
@@ -42,25 +44,34 @@ class SMAStrategy:
             self.mean_period_long).mean()[0]
         self.beta = mean_short / mean_long
 
+#        self.portfolio.show_current_status(event)
+
         return self.perform_trade_logic(event)
 
     def perform_trade_logic(self, event):
         if self.beta > self.buy_threshold:
             if not self.status["open_position"] \
                or self.status["position"] < 0:
-                signal = SignalEvent(event.instrument,
-                                     "market", "buy", event.bid)
-                self.buys.loc[event.time, event.instrument] = event.bid
-                self.events.put(signal)
+                self.order_and_calc_portfolio(event, True)
                 return True
 
         elif self.beta < self.sell_threshold:
             if not self.status["open_position"] \
                or self.status["position"] > 0:
-                signal = SignalEvent(event.instrument,
-                                     "market", "sell", event.ask)
-                self.sells.loc[event.time, event.instrument] = event.bid
-                self.events.put(signal)
+                self.order_and_calc_portfolio(event, False)
                 return True
 
         return False
+
+    def order_and_calc_portfolio(self, event, is_buy):
+        if is_buy:
+            signal = SignalEvent(event.instrument,
+                                 "market", "buy", event.bid)
+            self.buys.loc[event.time, event.instrument] = event.bid
+        else:
+            signal = SignalEvent(event.instrument,
+                                 "market", "sell", event.ask)
+            self.sells.loc[event.time, event.instrument] = event.ask
+
+        self.execution.execute_order(signal)  # 売り買いの実行
+        self.portfolio.update_portfolio(signal)  # ポートフォリオ更新
