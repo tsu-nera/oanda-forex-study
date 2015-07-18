@@ -40,7 +40,7 @@ class SMAStrategy:
             self.mean_period_long).mean()[0]
         self.beta = mean_short / mean_long
 
-        self.print_status(event, self.beta)
+        # self.print_status(event, self.beta)
 
         return self.perform_trade_logic(event)
 
@@ -51,14 +51,16 @@ class SMAStrategy:
         if self.beta > self.buy_threshold:
             if not self.status["open_position"] \
                or self.status["position"] < 0:
-                signal = SignalEvent(event.instrument, "market", "buy")
+                signal = SignalEvent(event.instrument,
+                                     "market", "buy", event.bid)
                 self.events.put(signal)
                 return True
 
         elif self.beta < self.sell_threshold:
             if not self.status["open_position"] \
                or self.status["position"] > 0:
-                signal = SignalEvent(event.instrument, "market", "sell")
+                signal = SignalEvent(event.instrument,
+                                     "market", "sell", event.ask)
                 self.events.put(signal)
                 return True
 

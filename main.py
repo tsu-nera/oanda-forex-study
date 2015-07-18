@@ -2,8 +2,9 @@ import time
 
 
 class Main():
-    def __init__(self, heartbeat):
-        self.heartbeat = heartbeat
+    def __init__(self, is_real):
+        self.is_real = is_real
+        self.heartbeat = 0.5 if is_real else 0
 
     def on_tick(self, event_queue, strategies, execution, portfolio):
 
@@ -12,8 +13,9 @@ class Main():
                 event = event_queue.get(False)
 
                 if event.type == 'TICK':
-                    # 未決済ポジションの計算
-                    portfolio.calculate_unrealized_pnl(event)
+                    if self.is_real:
+                        # 現在のポジションの表示
+                        portfolio.show_current_status(event)
 
                     # ストラテジチェック
                     for strategy in strategies:
@@ -26,5 +28,8 @@ class Main():
 
                     # ポートフォリオ更新
                     portfolio.update_portfolio(event)
+
+            if not self.is_real:  # シミュレーションの場合は抜ける
+                break
 
             time.sleep(self.heartbeat)

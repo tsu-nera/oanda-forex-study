@@ -1,5 +1,6 @@
 from settings import ACCESS_TOKEN, ACCOUNT_ID
 import oandapy
+from datetime import datetime
 
 
 class Portfolio():
@@ -31,10 +32,15 @@ class Portfolio():
             self.status["open_position"] = True
 
     def calculate_realized_pnl(self, event):
-        self.status["unrealized_pnl"] += self.unit * (
+        self.status["realized_pnl"] += self.unit * (
             (self.status["opening_price"] - self.status["executed_price"])
             if event.side == "buy" else
             (self.status["executed_price"] - self.status["opening_price"]))
+
+class PortfolioRemote(Portfolio):
+    def show_current_status(self, event):
+        self.calculate_unrealized_pnl(event)
+        self.print_status(event)
 
     def calculate_unrealized_pnl(self, event):
         if self.status["open_position"]:
@@ -51,3 +57,16 @@ class Portfolio():
                 else (avg_price - event.ask))
         else:
             self.status["unrealized_pnl"] = 0
+
+    def print_status(self, event):
+        print("[%s] %s pos=%s RPnL=%s UPnL=%s" % (
+            datetime.now().time(),
+            event.instrument,
+            self.status["position"],
+            round(self.status["realized_pnl"], 5),
+            round(self.status["unrealized_pnl"], 5)))
+
+    
+class PortfolioLocal(Portfolio):
+    def show_current_status(self, event):
+        pass

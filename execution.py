@@ -15,8 +15,11 @@ class ExecutionHandler(object):
 
 
 class SimulatedExecutionHandler(ExecutionHandler):
+    def __init__(self, status):
+        self.status = status
+
     def execute_order(self, event):
-        pass
+        self.status["executed_price"] = float(event.price)
 
 
 class OANDAExecutionHandler(ExecutionHandler):

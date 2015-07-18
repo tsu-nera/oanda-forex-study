@@ -1,12 +1,11 @@
 import queue
-import threading
 
-from execution import OANDAExecutionHandler
+from execution import SimulatedExecutionHandler
 
 from main import Main
 from parser import HistoricCSVPriceHandler
 from sma_strategy import SMAStrategy
-from portfolio import Portfolio
+from portfolio import PortfolioLocal
 
 if __name__ == "__main__":
     events = queue.Queue()  # 同期キュー
@@ -14,21 +13,19 @@ if __name__ == "__main__":
     prices = HistoricCSVPriceHandler("EUR_USD", events, "")
 
     status = dict()  # tick をまたいで記憶しておきたい情報
+    status["heartbeat"] = 0
 
-    # 戦略
     strategies = set([SMAStrategy(events, status)])
 
-    portfolio = Portfolio(status)  # お金管理
+    portfolio = PortfolioLocal(status)
 
-    execution = OANDAExecutionHandler(status)  # 売買注文
+    execution = SimulatedExecutionHandler(status)
 
-    main = Main(0)
+    main = Main(False)
 
-    trade_thread = threading.Thread(target=main.on_tick,
-                                    args=[events, strategies,
-                                          execution, portfolio])
+    print("=== Backtesting Start === ")
 
-    price_thread = threading.Thread(target=prices.stream_to_queue, args=[])
+    prices.stream_to_queue()
+    main.on_tick(events, strategies, execution, portfolio)
 
-    trade_thread.start()
-    price_thread.start()
+    print("=== End .... v(^_^)v  === ")

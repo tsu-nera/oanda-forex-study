@@ -12,17 +12,10 @@ class TickEvent(Event):
 
 
 class SignalEvent(Event):
-    def __init__(self, instrument, order_type, side):
+    def __init__(self, instrument, order_type, side, price):
         self.type = 'SIGNAL'
         self.instrument = instrument
         self.order_type = order_type
         self.side = side
+        self.price = price
 
-
-class OrderEvent(Event):
-    def __init__(self, instrument, units, order_type, side):
-        self.type = 'ORDER'
-        self.instrument = instrument
-        self.units = units
-        self.order_type = order_type  # market
-        self.side = side              # sell or buy
