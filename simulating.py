@@ -35,5 +35,7 @@ if __name__ == "__main__":
     plt.plot(strategy.prices.index, strategy.prices)
     plt.plot(strategy.buys.index, strategy.buys, "ro")
     plt.plot(strategy.sells.index, strategy.sells, "go")
+
+    portfolio.rpnl.plot()
     plt.show()
 

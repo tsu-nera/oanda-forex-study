@@ -65,11 +65,11 @@ class SMAStrategy:
 
     def order_and_calc_portfolio(self, event, is_buy):
         if is_buy:
-            signal = SignalEvent(event.instrument,
+            signal = SignalEvent(event.instrument, event.time,
                                  "market", "buy", event.bid)
             self.buys.loc[event.time, event.instrument] = event.bid
         else:
-            signal = SignalEvent(event.instrument,
+            signal = SignalEvent(event.instrument, event.time,
                                  "market", "sell", event.ask)
             self.sells.loc[event.time, event.instrument] = event.ask
 

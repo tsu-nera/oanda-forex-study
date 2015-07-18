@@ -1,12 +1,13 @@
 from settings import ACCESS_TOKEN, ACCOUNT_ID
 import oandapy
 from datetime import datetime
-
+import pandas as pd
 
 class Portfolio():
     def __init__(self, status):
         status["open_position"] = False
         status["position"] = 0
+
         self.unit = 1000
         self.status = status
 
@@ -14,6 +15,7 @@ class Portfolio():
         status["executed_price"] = 0
         status["unrealized_pnl"] = 0
         status["realized_pnl"] = 0
+        self.rpnl = pd.DataFrame()
 
         self.oanda = oandapy.API("practice", ACCESS_TOKEN)
 
@@ -27,6 +29,7 @@ class Portfolio():
         if self.status["position"] == 0:
             self.status["open_position"] = False
             self.calculate_realized_pnl(event)
+            self.rpnl.loc[event.time, "rpnl"] = self.status["realized_pnl"]
         else:
             self.status["opening_price"] = self.status["executed_price"]
             self.status["open_position"] = True
