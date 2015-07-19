@@ -1,6 +1,9 @@
 import pandas as pd
 from event import SignalEvent
 
+# import numpy as np
+# import talib
+
 
 class SMAStrategy:
     def __init__(self, events, status, execution, portfolio):
@@ -32,10 +35,22 @@ class SMAStrategy:
             how='last',
             fill_method="ffill")
 
-        mean_short = resampled_prices.tail(
-            self.mean_period_short).mean()[0]
-        mean_long = resampled_prices.tail(
-            self.mean_period_long).mean()[0]
+        # 直接計算
+        mean_short = resampled_prices.tail(self.mean_period_short).mean()[0]
+        mean_long = resampled_prices.tail(self.mean_period_long).mean()[0]
+
+        # talibをつかった場合 ... なんでこんなに大変なの？？
+        # mean_short_seq = resampled_prices.tail(
+        #     self.mean_period_short)[event.instrument]
+        # mean_long_seq = resampled_prices.tail(
+        #     self.mean_period_long)[event.instrument]
+        # mean_short = talib.SMA(np.asarray(mean_short_seq),
+        #                        timeperiod=self.mean_period_short)[
+        #                            len(mean_short_seq)-1]
+        # mean_long = talib.SMA(np.asarray(mean_long_seq),
+        #                       timeperiod=self.mean_period_long)[
+        #                           len(mean_long_seq)-1]
+
         self.beta = mean_short / mean_long
 
 #        self.portfolio.show_current_status(event)

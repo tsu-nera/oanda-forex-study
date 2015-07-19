@@ -6,6 +6,7 @@
 * 依存ライブラリ
   - pandas
   - matplotlib
+  - requests
   - progressbar2
 
 * AWSへのインストールメモ
@@ -15,7 +16,7 @@
   -  http://wasure-memo.h-tsk.com/2015/03/centos-7python34.html#
 
 #+begin_src bash
-$ sudo yum install zlib zlib-devel tk-devel tcl-devel sqlite-devel ncurses-devel gdbm-devel readline-devel bzip2-devel openssl-devel gcc gcc-c++
+$ sudo yum install zlib zlib-devel tk-devel tcl-devel sqlite-devel ncurses-devel gdbm-devel readline-devel bzip2-devel openssl-devel gcc gcc-c++ git
 $ wget https://www.python.org/ftp/python/3.4.3/Python-3.4.3.tgz 
 $ tar zxvf Python-3.4.3.tgz
 $ cd Python-3.4.3
@@ -33,9 +34,12 @@ $ sudo ln -s /usr/local/python34/lib/libpython3.4m.so.1.0 /lib64/
 
 #+begin_src bash
 pip3 install pandas
-pip3 install matplotlib
+pip3 install requests
 pip3 install progressbar2
 #+end_src
+
+** 環境変数の設定
+   ...
 
 ** アプリの取得
 
@@ -43,8 +47,8 @@ pip3 install progressbar2
 git clone https://github.com/tsu-nera/oanda-forex-study.git
 #+end_src
 
-** 環境変数の設定
+** アプリ起動
 
-#+begin_src bash
-
+#+begin_src emacs-lisp
+$ python3 trading.py
 #+end_src
