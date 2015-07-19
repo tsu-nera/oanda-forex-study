@@ -5,10 +5,10 @@ from event import SignalEvent
 class SMAStrategy:
     def __init__(self, events, status, execution, portfolio):
 
-        self.resample_interval = '15s'
+        self.resample_interval = '60s'
 
-        self.mean_period_short = 5
-        self.mean_period_long = 20
+        self.mean_period_short = 20
+        self.mean_period_long = 40
         self.buy_threshold = 1.0
         self.sell_threshold = 1.0
         self.beta = 0

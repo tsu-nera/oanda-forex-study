@@ -8,7 +8,7 @@ class Portfolio():
         status["open_position"] = False
         status["position"] = 0
 
-        self.unit = 1000
+        self.unit = 10000
         self.status = status
         self.order_count = 0
         self.total_profit = 0
@@ -47,6 +47,12 @@ class Portfolio():
             (self.status["executed_price"] - self.status["opening_price"]))
         self.status["realized_pnl"] += current_pnl
 
+        print("[%s] no=%s PnL=%s" % (
+            event.time,
+            self.order_count,
+            round(current_pnl, 5)
+        ))
+
         if current_pnl > 0:
             self.total_profit += current_pnl
         else:
@@ -81,7 +87,7 @@ class PortfolioRemote(Portfolio):
             round(self.status["realized_pnl"], 5),
             round(self.status["unrealized_pnl"], 5)))
 
-    
+
 class PortfolioLocal(Portfolio):
     def show_current_status(self, event):
         print("[%s] %s pos=%s RPnL=%s UPnL=%s" % (
