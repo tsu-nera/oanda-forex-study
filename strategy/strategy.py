@@ -22,7 +22,7 @@ class Strategy:
         self.resampled_prices = self.prices.resample(
             self.resample_interval,
             how='last',
-            fioll_method="ffill")
+            fill_method="ffill")
 
     def perform_trade_logic(self, event, buy_condition, sell_condition):
         if buy_condition():

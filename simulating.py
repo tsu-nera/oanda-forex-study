@@ -4,8 +4,8 @@ from execution import SimulatedExecutionHandler
 
 from parser import DukascopyCSVPriceHandler
 #from parser import MetatraderCSVPriceHandler
-#from sma_strategy import SMAStrategy
-from strategy.momentum import Momentum
+from strategy.sma import SMA
+#from strategy.momentum import Momentum
 from portfolio import PortfolioLocal
 from progressbar import ProgressBar
 
@@ -44,8 +44,8 @@ if __name__ == "__main__":
 
     execution = SimulatedExecutionHandler(status)
 
-#    strategy = SMAStrategy(events, status, execution, portfolio)
-    strategy = Momentum(events, status, execution, portfolio)
+    strategy = SMA(events, status, execution, portfolio)
+#    strategy = Momentum(events, status, execution, portfolio)
     strategies = set([strategy])
 
     print("=== Backtesting Start =================================== ")
