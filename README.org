@@ -1,10 +1,50 @@
 * Info
-  - python3.xで動作
+  - pySthon3.xで動作
   - バックテスト用データは以下から取得.
   https://www.dukascopy.com/swiss/english/marketwatch/historical/
 
 * 依存ライブラリ
   - pandas
   - matplotlib
-  - progress2
+  - progressbar2
 
+* AWSへのインストールメモ
+  Amazon Linuxを借りる.
+  
+** Python3インストール
+  -  http://wasure-memo.h-tsk.com/2015/03/centos-7python34.html#
+
+#+begin_src bash
+$ sudo yum install zlib zlib-devel tk-devel tcl-devel sqlite-devel ncurses-devel gdbm-devel readline-devel bzip2-devel openssl-devel gcc gcc-c++
+$ wget https://www.python.org/ftp/python/3.4.3/Python-3.4.3.tgz 
+$ tar zxvf Python-3.4.3.tgz
+$ cd Python-3.4.3
+$  ./configure --with-threads --enable-shared --prefix=/usr/local/python34
+$ make
+$ sudo make install
+
+$ export PATH=/usr/local/python34/bin:$PATH
+# エラー対策
+$ sudo ln -s /usr/local/python34/lib/libpython3.4m.so.1.0 /lib64/
+#+end_src
+
+** 依存ライブラリのインストール
+   ルート権限になる sudo su
+
+#+begin_src bash
+pip3 install pandas
+pip3 install matplotlib
+pip3 install progressbar2
+#+end_src
+
+** アプリの取得
+
+#+begin_src bash
+git clone https://github.com/tsu-nera/oanda-forex-study.git
+#+end_src
+
+** 環境変数の設定
+
+#+begin_src bash
+
+#+end_src
