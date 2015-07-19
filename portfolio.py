@@ -47,16 +47,22 @@ class Portfolio():
             (self.status["executed_price"] - self.status["opening_price"]))
         self.status["realized_pnl"] += current_pnl
 
-        print("[%s] no=%s PnL=%s" % (
-            event.time,
-            self.order_count,
-            round(current_pnl, 5)
-        ))
+        # self.print_current_status(event, current_pnl)
 
         if current_pnl > 0:
             self.total_profit += current_pnl
         else:
             self.total_loss -= current_pnl
+
+    def print_current_status(self, event, pnl):
+        print("[%s] no=%2s open_price=%.7s exe_price=%.7s PnL=%.7s" % (
+            event.time,
+            self.order_count,
+            round(self.status["opening_price"], 6),
+            round(self.status["executed_price"], 6),
+            round(pnl, 5)
+        ))
+
 
 class PortfolioRemote(Portfolio):
     def show_current_status(self, event):

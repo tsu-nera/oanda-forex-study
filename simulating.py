@@ -2,8 +2,8 @@ import queue
 
 from execution import SimulatedExecutionHandler
 
-#from parser import DukascopyCSVPriceHandler
-from parser import MetatraderCSVPriceHandler
+from parser import DukascopyCSVPriceHandler
+#from parser import MetatraderCSVPriceHandler
 from sma_strategy import SMAStrategy
 from portfolio import PortfolioLocal
 from progressbar import ProgressBar
@@ -12,19 +12,29 @@ import matplotlib.pyplot as plt
 
 
 def simulating():
-   #progress = ProgressBar(events.qsize()).start()
+    progress = ProgressBar(events.qsize()).start()
     for i in range(events.qsize()):
         event = events.get(False)
         # ストラテジチェック
         for strategy in strategies:
             if(strategy.check(event)):
                 break
-     #   progress.update(i + 1)
+
+            if events.empty():
+                # 最後は決済して終了
+                if status["position"] < 0:
+                    strategy.order_and_calc_portfolio(event, True)
+                else:
+                    strategy.order_and_calc_portfolio(event, False)
+                break
+        progress.update(i + 1)
+
 
 if __name__ == "__main__":
     events = queue.Queue()  # 同期キュー
 
-    prices = MetatraderCSVPriceHandler("EUR_USD", events)
+#    prices = MetatraderCSVPriceHandler("EUR_USD", events)
+    prices = DukascopyCSVPriceHandler("EUR_USD", events)
 
     status = dict()  # tick をまたいで記憶しておきたい情報
     status["heartbeat"] = 0
@@ -48,6 +58,8 @@ if __name__ == "__main__":
     print("Realized P&L     : %s" % round(status["realized_pnl"], 5))
     print("Profit Factor    : %s" % round(
         portfolio.total_profit/portfolio.total_loss, 5))
+    # print("Profit/Loss      : %s/%s" % (
+    #     portfolio.total_profit, portfolio.total_loss))
 
     plt.plot(strategy.prices.index, strategy.prices)
     plt.plot(strategy.buys.index, strategy.buys, "ro")

@@ -3,8 +3,6 @@ from event import TickEvent
 import pandas as pd
 from dateutil.parser import parse
 
-from decimal import Decimal,  ROUND_HALF_DOWN
-
 
 class PriceHandler(object):
     __metaclass__ = ABCMeta
@@ -25,7 +23,7 @@ class PriceHandler(object):
 class DukascopyCSVPriceHandler(PriceHandler):
     def _open_convert_csv_files(self):
 
-        pair_path = "data/EURUSD_Candlestick_1_m_BID_16.07.2015-16.07.2015.csv"
+        pair_path = "data/EURUSD_Candlestick_15_s_BID_16.07.2015-16.07.2015.csv"
         self.pair = pd.io.parsers.read_csv(
             pair_path, header=True, index_col=0, parse_dates=True,
             names=("Time", "Ask", "Bid", "AskVolume", "BidVolume")
