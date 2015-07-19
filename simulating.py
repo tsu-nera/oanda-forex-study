@@ -5,7 +5,7 @@ from execution import SimulatedExecutionHandler
 from parser import DukascopyCSVPriceHandler
 #from parser import MetatraderCSVPriceHandler
 #from sma_strategy import SMAStrategy
-from momentum import Momentum
+from strategy.momentum import Momentum
 from portfolio import PortfolioLocal
 from progressbar import ProgressBar
 

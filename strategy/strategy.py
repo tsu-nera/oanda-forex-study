@@ -1,17 +1,11 @@
 import pandas as pd
 from event import SignalEvent
 
-import numpy as np
-# import talib
 
-
-class Momentum:
+class Strategy:
     def __init__(self, events, status, execution, portfolio):
 
         self.resample_interval = '60s'
-
-        self.period_back = 30
-        self.momentum = 0
 
         self.prices = pd.DataFrame()
         self.buys = pd.DataFrame()
@@ -22,33 +16,22 @@ class Momentum:
         self.execution = execution
         self.portfolio = portfolio
 
-    def check(self, event):
+    def resample(self, event):
         self.prices.loc[event.time, event.instrument] = event.bid
 
-        # ティックだと多いので、間引く.
-        # TODO 抽象クラスへ移動
-        resampled_prices = self.prices.resample(
+        self.resampled_prices = self.prices.resample(
             self.resample_interval,
             how='last',
-            fill_method="ffill")
+            fioll_method="ffill")
 
-        momentum_seq = np.asarray(resampled_prices.tail(self.period_back))
-
-        if len(momentum_seq) < self.period_back:
-            return False
-
-        self.beta = (momentum_seq[self.period_back-1] / momentum_seq[0]) * 100
-
-        return self.perform_trade_logic(event)
-
-    def perform_trade_logic(self, event):
-        if self.beta > 100:
+    def perform_trade_logic(self, event, buy_condition, sell_condition):
+        if buy_condition():
             if not self.status["open_position"] \
                or self.status["position"] < 0:
                 self.order_and_calc_portfolio(event, True)
                 return True
 
-        elif self.beta < 100:
+        elif sell_condition():
             if not self.status["open_position"] \
                or self.status["position"] > 0:
                 self.order_and_calc_portfolio(event, False)
