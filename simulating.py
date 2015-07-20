@@ -5,7 +5,8 @@ from execution import SimulatedExecutionHandler
 from parser import DukascopyCSVPriceHandler
 #from parser import MetatraderCSVPriceHandler
 #from strategy.sma import SMA
-from strategy.momentum import Momentum
+#from strategy.momentum import Momentum
+from strategy.bolingerband import BolingerBand
 from portfolio import PortfolioLocal
 from progressbar import ProgressBar
 from manager import Manager
@@ -44,7 +45,8 @@ if __name__ == "__main__":
     execution = SimulatedExecutionHandler(status)
 
 #    strategy = SMA(status)
-    strategy = Momentum(status)
+#    strategy = Momentum(status)
+    strategy = BolingerBand(status)
 
     manager = Manager(status, events, execution, portfolio, strategy)
 
@@ -71,4 +73,6 @@ if __name__ == "__main__":
     plt.plot(timeseries.sells.index, timeseries.sells, "go")
 
     portfolio.rpnl.plot()
+
+    plt.grid(True)
     plt.show()
