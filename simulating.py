@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import queue
 
 from execution import SimulatedExecutionHandler
-from parser import DukascopyCSVPriceHandler
+from csv_parser import DukascopyCSVPriceHandler
 #from parser import MetatraderCSVPriceHandler
 #from strategy.sma import SMA
 #from strategy.momentum import Momentum
