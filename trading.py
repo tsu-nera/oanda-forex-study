@@ -2,34 +2,35 @@ import queue
 import threading
 import time
 
-from execution import OANDAExecutionHandler
 from settings import ACCESS_TOKEN, ACCOUNT_ID
+from execution import OANDAExecutionHandler
 from streaming import StreamingForexPrices
-
-from sma_strategy import SMAStrategy
 from portfolio import PortfolioRemote
+from manager import Manager
+
+from strategy.sma import SMA
+
 
 heartbeat = 0.5
 
 
-def on_tick(event_queue, strategies, portfolio):
+def on_tick(events, manager):
     while True:
-        while not event_queue.empty():
-            event = event_queue.get(False)
+        while not events.empty():
 
-            # ストラテジチェック
-            for strategy in strategies:
-                if(strategy.check(event)):
-                    break
-            portfolio.print_status(event)
+            event = events.get(False)
+
+            manager.perform_trade(event)
+
+            manager.portfolio.print_status(event)
 
         time.sleep(heartbeat)
 
 if __name__ == "__main__":
     events = queue.Queue()  # 同期キュー
 
-    prices = StreamingForexPrices(environment="practice",
-                                  access_token=ACCESS_TOKEN)
+    price_src = StreamingForexPrices(environment="practice",
+                                     access_token=ACCESS_TOKEN)
 
     status = dict()  # tick をまたいで記憶しておきたい情報
 
@@ -37,14 +38,14 @@ if __name__ == "__main__":
 
     execution = OANDAExecutionHandler(status)  # 売買注文
 
-    # 戦略
-    strategy = SMAStrategy(events, status, execution, portfolio)
-    strategies = set([strategy])
+    strategy = SMA(status)
+
+    manager = Manager(status, events, execution, portfolio, strategy)
 
     trade_thread = threading.Thread(target=on_tick,
-                                    args=[events, strategies, portfolio])
+                                    args=[events, manager])
 
-    price_thread = threading.Thread(target=prices.begin, args=[
+    price_thread = threading.Thread(target=price_src.begin, args=[
         ACCOUNT_ID, "EUR_USD", events
     ])
 

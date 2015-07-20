@@ -3,27 +3,21 @@ from strategy.strategy import Strategy
 
 
 class Momentum(Strategy):
-    def __init__(self, events, status, execution, portfolio):
-        Strategy.__init__(self, events, status, execution, portfolio)
+    def __init__(self, status):
+        Strategy.__init__(self, status)
 
         self.period_back = 30
         self.momentum = 0
         self.beta = 0
 
-    def check(self, event):
-        self.resample(event)
-
-        momentum_seq = np.asarray(
-            self.resampled_prices.tail(self.period_back))
+    def calc_indicator(self, timeseries, event):
+        momentum_seq = timeseries.get_latest_ts_as_array(
+            self.period_back, event)
 
         if len(momentum_seq) < self.period_back:
             return False
 
         self.beta = (momentum_seq[self.period_back-1] / momentum_seq[0]) * 100
-
-        return self.perform_trade_logic(event,
-                                        self.buy_condition,
-                                        self.sell_condition)
 
     def buy_condition(self):
         return self.beta > 100

@@ -1,58 +1,60 @@
+import matplotlib.pyplot as plt
 import queue
 
 from execution import SimulatedExecutionHandler
-
 from parser import DukascopyCSVPriceHandler
 #from parser import MetatraderCSVPriceHandler
-from strategy.sma import SMA
-#from strategy.momentum import Momentum
+#from strategy.sma import SMA
+from strategy.momentum import Momentum
 from portfolio import PortfolioLocal
 from progressbar import ProgressBar
+from manager import Manager
 
-import matplotlib.pyplot as plt
 
-
-def simulating():
+def simulating(events, manager):
     progress = ProgressBar(events.qsize()).start()
-    for i in range(events.qsize()):
-        event = events.get(False)
-        # ストラテジチェック
-        for strategy in strategies:
-            if(strategy.check(event)):
-                break
 
-            if events.empty():
-                # 最後は決済して終了
-                if status["position"] < 0:
-                    strategy.order_and_calc_portfolio(event, True)
-                else:
-                    strategy.order_and_calc_portfolio(event, False)
-                break
+    for i in range(events.qsize()):
+        # キューからTickEvent取り出し
+        event = events.get(False)
+
+        # トレード実行
+        manager.perform_trade(event)
+
+        # 最後は決済して終了
+        check_and_close_last_order(event)
+
         progress.update(i + 1)
 
+
+def check_and_close_last_order(event):
+    if events.empty():
+        if status["position"] < 0:
+            manager.order_and_calc_portfolio(event, True)
+        else:
+            manager.order_and_calc_portfolio(event, False)
 
 if __name__ == "__main__":
     events = queue.Queue()  # 同期キュー
 
-#    prices = MetatraderCSVPriceHandler("EUR_USD", events)
-    prices = DukascopyCSVPriceHandler("EUR_USD", events)
-
     status = dict()  # tick をまたいで記憶しておきたい情報
-    status["heartbeat"] = 0
 
     portfolio = PortfolioLocal(status)
 
     execution = SimulatedExecutionHandler(status)
 
-    strategy = SMA(events, status, execution, portfolio)
-#    strategy = Momentum(events, status, execution, portfolio)
-    strategies = set([strategy])
+#    strategy = SMA(status)
+    strategy = Momentum(status)
+
+    manager = Manager(status, events, execution, portfolio, strategy)
 
     print("=== Backtesting Start =================================== ")
 
-    prices.stream_to_queue()
+    #    event_src = MetatraderCSVPriceHandler("EUR_USD", events)
+    event_src = DukascopyCSVPriceHandler("EUR_USD", events)
+    event_src.stream_to_queue()
 
-    simulating()
+    simulating(events, manager)
 
     print("=== End .... v(^_^)v  =================================== ")
 
@@ -63,9 +65,10 @@ if __name__ == "__main__":
     # print("Profit/Loss      : %s/%s" % (
     #     portfolio.total_profit, portfolio.total_loss))
 
-    plt.plot(strategy.prices.index, strategy.prices)
-    plt.plot(strategy.buys.index, strategy.buys, "ro")
-    plt.plot(strategy.sells.index, strategy.sells, "go")
+    timeseries = manager.ts
+    plt.plot(timeseries.prices.index, timeseries.prices)
+    plt.plot(timeseries.buys.index, timeseries.buys, "ro")
+    plt.plot(timeseries.sells.index, timeseries.sells, "go")
 
     portfolio.rpnl.plot()
     plt.show()
