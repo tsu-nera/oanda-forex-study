@@ -6,6 +6,7 @@ from settings import ACCESS_TOKEN, ACCOUNT_ID
 from execution import OANDAExecutionHandler
 from streaming import StreamingForexPrices
 from portfolio import PortfolioRemote
+from timeseries import TimeSeries
 from manager import Manager
 
 from strategy.sma import SMA
@@ -40,7 +41,10 @@ if __name__ == "__main__":
 
     strategy = SMA(status)
 
-    manager = Manager(status, events, execution, portfolio, strategy)
+    timeseries = TimeSeries(False)
+
+    manager = Manager(status, events, execution,
+                      portfolio, strategy, timeseries)
 
     trade_thread = threading.Thread(target=on_tick,
                                     args=[events, manager])

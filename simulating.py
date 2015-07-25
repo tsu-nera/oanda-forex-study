@@ -11,6 +11,7 @@ from strategy.granville import Granville
 from strategy.bolingerband import BolingerBand
 from portfolio import PortfolioLocal
 from progressbar import ProgressBar
+from timeseries import TimeSeries
 from manager import Manager
 
 
@@ -46,11 +47,14 @@ if __name__ == "__main__":
 
     execution = SimulatedExecutionHandler(status)
 
+    timeseries = TimeSeries(True)
+
     strategy = Granville(status)
 #    strategy = Momentum(status)
 #    strategy = BolingerBand(status)
 
-    manager = Manager(status, events, execution, portfolio, strategy)
+    manager = Manager(status, events, execution,
+                      portfolio, strategy, timeseries)
 
     print("=== Backtesting Start =================================== ")
 
@@ -69,17 +73,16 @@ if __name__ == "__main__":
     # print("Profit/Loss      : %s/%s" % (
     #     portfolio.total_profit, portfolio.total_loss))
 
-    timeseries = manager.ts
     plt.plot(timeseries.prices.index, timeseries.prices)
 
     plt.plot(strategy.sma_long_ts.index, strategy.sma_long_ts)
     plt.plot(strategy.sma_short_ts.index, strategy.sma_short_ts)
-    plt.plot(strategy.sma_ols_ts.index, strategy.sma_ols_ts)
+#    plt.plot(strategy.sma_ols_ts.index, strategy.sma_ols_ts)
 
     plt.plot(timeseries.buys.index, timeseries.buys, "ro")
     plt.plot(timeseries.sells.index, timeseries.sells, "go")
 
-#    portfolio.rpnl.plot()
+    portfolio.rpnl.plot()
 
     plt.grid(True)
     plt.show()

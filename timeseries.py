@@ -3,13 +3,15 @@ import pandas as pd
 
 
 class TimeSeries():
-    def __init__(self):
+    def __init__(self, is_sim):
 
         self.resample_interval = '5s'
+        self.is_sim = is_sim
 
         self.prices = pd.DataFrame()
         self.buys = pd.DataFrame()
         self.sells = pd.DataFrame()
+
         self.resampled_prices = None
 
     def add_tick_event(self, event):
@@ -19,6 +21,9 @@ class TimeSeries():
             self.resample_interval,
             how='last',
             fill_method="ffill")
+
+        if not self.is_sim and len(self.resampled_prices) > 1000:
+            self.resampled_prices.drop(self.resampled_prices(1).index)
 
     def add_buy_event(self, event):
         self.buys.loc[event.time, event.instrument] = event.bid
@@ -31,7 +36,3 @@ class TimeSeries():
 
     def get_latest_ts_as_array(self, period, event):
         return np.asarray(self.get_latest_ts_as_df(period)[event.instrument])
-
-    # def get_latest_event(self):
-    #     # TODO 確認
-    #     return self.resampled_prices.tail(1)[0]
