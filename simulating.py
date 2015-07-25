@@ -3,8 +3,9 @@ import queue
 
 from execution import SimulatedExecutionHandler
 from csv_parser import DukascopyCSVPriceHandler
+from strategy.granville import Granville
 #from strategy.sma import SMA
-from strategy.ema import EMA
+#from strategy.ema import EMA
 #from parser import MetatraderCSVPriceHandler
 #from strategy.momentum import Momentum
 from strategy.bolingerband import BolingerBand
@@ -45,7 +46,7 @@ if __name__ == "__main__":
 
     execution = SimulatedExecutionHandler(status)
 
-    strategy = EMA(status)
+    strategy = Granville(status)
 #    strategy = Momentum(status)
 #    strategy = BolingerBand(status)
 
@@ -73,6 +74,7 @@ if __name__ == "__main__":
 
     plt.plot(strategy.sma_long_ts.index, strategy.sma_long_ts)
     plt.plot(strategy.sma_short_ts.index, strategy.sma_short_ts)
+    plt.plot(strategy.sma_ols_ts.index, strategy.sma_ols_ts)
 
     plt.plot(timeseries.buys.index, timeseries.buys, "ro")
     plt.plot(timeseries.sells.index, timeseries.sells, "go")
