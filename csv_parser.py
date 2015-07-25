@@ -10,7 +10,7 @@ class PriceHandler(object):
     def __init__(self, pairs, events_queue):
         self.pairs = pairs
         self.events_queue = events_queue
-        self.file_path = "data/EURUSD_Candlestick_15_s_BID_16.07.2015-16.07.2015.csv"
+        self.file_path = "data/EURUSD_Ticks_24.07.2015-1H.csv"
 
     @abstractmethod
     def stream_to_queue(self):

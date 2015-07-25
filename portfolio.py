@@ -8,7 +8,7 @@ class Portfolio():
         status["open_position"] = False
         status["position"] = 0
 
-        self.unit = 10000
+        self.unit = 1000
         self.status = status
         self.order_count = 0
         self.total_profit = 0

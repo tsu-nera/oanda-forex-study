@@ -5,7 +5,7 @@ import pandas as pd
 class TimeSeries():
     def __init__(self):
 
-        self.resample_interval = '60s'
+        self.resample_interval = '5s'
 
         self.prices = pd.DataFrame()
         self.buys = pd.DataFrame()

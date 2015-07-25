@@ -1,4 +1,5 @@
 from strategy.strategy import Strategy
+import pandas as pd
 
 # import numpy as np
 # import talib
@@ -14,12 +15,18 @@ class SMA(Strategy):
         self.buy_threshold = 1.0
         self.sell_threshold = 1.0
 
+        self.sma_short_ts = pd.DataFrame()
+        self.sma_long_ts = pd.DataFrame()
+
     def calc_indicator(self, timeseries, event):
         # 直接計算
         mean_short = timeseries.get_latest_ts_as_df(
             self.mean_period_short).mean()[0]
         mean_long = timeseries.get_latest_ts_as_df(
             self.mean_period_long).mean()[0]
+
+        self.sma_short_ts.loc[event.time, event.instrument] = mean_short
+        self.sma_long_ts.loc[event.time, event.instrument] = mean_long
 
         self.beta = mean_short / mean_long
 

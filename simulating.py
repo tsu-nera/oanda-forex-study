@@ -3,8 +3,9 @@ import queue
 
 from execution import SimulatedExecutionHandler
 from csv_parser import DukascopyCSVPriceHandler
-#from parser import MetatraderCSVPriceHandler
 #from strategy.sma import SMA
+from strategy.ema import EMA
+#from parser import MetatraderCSVPriceHandler
 #from strategy.momentum import Momentum
 from strategy.bolingerband import BolingerBand
 from portfolio import PortfolioLocal
@@ -44,9 +45,9 @@ if __name__ == "__main__":
 
     execution = SimulatedExecutionHandler(status)
 
-#    strategy = SMA(status)
+    strategy = EMA(status)
 #    strategy = Momentum(status)
-    strategy = BolingerBand(status)
+#    strategy = BolingerBand(status)
 
     manager = Manager(status, events, execution, portfolio, strategy)
 
@@ -69,10 +70,14 @@ if __name__ == "__main__":
 
     timeseries = manager.ts
     plt.plot(timeseries.prices.index, timeseries.prices)
+
+    plt.plot(strategy.sma_long_ts.index, strategy.sma_long_ts)
+    plt.plot(strategy.sma_short_ts.index, strategy.sma_short_ts)
+
     plt.plot(timeseries.buys.index, timeseries.buys, "ro")
     plt.plot(timeseries.sells.index, timeseries.sells, "go")
 
-    portfolio.rpnl.plot()
+#    portfolio.rpnl.plot()
 
     plt.grid(True)
     plt.show()
