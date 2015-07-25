@@ -21,11 +21,12 @@ class Granville(Strategy):
         self.sma_long_ts = pd.DataFrame()
         self.sma_ols_ts = pd.DataFrame()
 
-        self.mean_for_ols_period = 6
+        self.mean_for_ols_period = 20
         self.ols_period = 40
 
         self.a = 0
         self.b = 0
+        self.pre_b = 0
 
     def calc_indicator(self, timeseries, event):
         mean_short = timeseries.get_latest_ts_as_df(
@@ -52,6 +53,7 @@ class Granville(Strategy):
             return
 
         results = sm.OLS(y, sm.add_constant(x), prepend=True).fit()
+        self.pre_b = self.b
         self.a, self.b = results.params
 
         self.cleanup_data()
@@ -60,13 +62,13 @@ class Granville(Strategy):
         return self.beta > 1.0 and self.beta_pre < 1.0 and self.b > 0
 
     def close_buy_condition(self):
-        return self.beta < 1.0 and self.beta_pre > 1.0 and self.b < 0
+        return self.pre_b >= 0 and self.b < 0
 
     def sell_condition(self):
         return self.beta < 1.0 and self.beta_pre > 1.0 and self.b < 0
 
     def close_sell_condition(self):
-        return self.beta > 1.0 and self.beta_pre < 1.0 and self.b > 0
+        return self.pre_b <= 0 and self.b > 0
 
     def print_beta(self):
         print("%s/%s" % (self.beta_pre, self.beta))

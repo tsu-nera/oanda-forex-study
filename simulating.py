@@ -74,7 +74,7 @@ if __name__ == "__main__":
     #     portfolio.total_profit, portfolio.total_loss))
 
     plt.plot(timeseries.prices.index, timeseries.prices)
-
+    
     plt.plot(strategy.sma_long_ts.index, strategy.sma_long_ts)
     plt.plot(strategy.sma_short_ts.index, strategy.sma_short_ts)
 #    plt.plot(strategy.sma_ols_ts.index, strategy.sma_ols_ts)
