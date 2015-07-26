@@ -57,8 +57,8 @@ if __name__ == "__main__":
 
 #    strategy = SMARSIOLS(status)
 #    strategy = SMARSI(status)
-#    strategy = EMA(status)
-    strategy = SMA2(status)
+    strategy = EMA(status)
+#    strategy = SMA2(status)
 #    strategy = RSI(status)
 #
 #    strategy = Granville(status)
@@ -71,7 +71,8 @@ if __name__ == "__main__":
     print("=== Backtesting Start =================================== ")
 
     #    event_src = MetatraderCSVPriceHandler("EUR_USD", events)
-    event_src = DukascopyCSVPriceHandler("EUR_USD", events)
+    event_src = DukascopyCSVPriceHandler("EUR_USD", events,
+                                         "data/EURUSD_Ticks_24.07.2015-3H.csv")
     event_src.stream_to_queue()
 
     simulating(events, manager)

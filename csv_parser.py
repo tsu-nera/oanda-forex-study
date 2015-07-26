@@ -7,11 +7,11 @@ from dateutil.parser import parse
 class PriceHandler(object):
     __metaclass__ = ABCMeta
 
-    def __init__(self, pairs, events_queue):
+    def __init__(self, pairs, events_queue, file_path=None):
         self.pairs = pairs
         self.events_queue = events_queue
 #       self.file_path = "data/EURUSD_Ticks_24.07.2015-24.07.2015.csv"
-        self.file_path = "data/EURUSD_Ticks_24.07.2015-3H.csv"
+        self.file_path = file_path
 
     @abstractmethod
     def stream_to_queue(self):

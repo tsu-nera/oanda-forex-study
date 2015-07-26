@@ -23,7 +23,7 @@ class EMA(Strategy):
             self.mean_period_short, event)
         mean_long_seq = timeseries.get_latest_ts_as_array(
             self.mean_period_long, event)
-        mean_short = talib.EMA(mean_short_seq,
+        mean_short = talib.WMA(mean_short_seq,
                                timeperiod=self.mean_period_short)[
                                    len(mean_short_seq)-1]
         mean_long = talib.SMA(mean_long_seq,
