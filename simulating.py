@@ -10,6 +10,7 @@ from progressbar import ProgressBar
 from timeseries import TimeSeries
 from manager import Manager
 
+from strategy.sma_rsi_ols import SMARSIOLS
 from strategy.sma_ols import SMAOLS
 from strategy.sma_rsi import SMARSI
 from strategy.rsi import RSI
@@ -53,12 +54,13 @@ if __name__ == "__main__":
     execution = SimulatedExecutionHandler(status)
 
     timeseries = TimeSeries(True)
-    
+
+#    strategy = SMARSIOLS(status)
 #    strategy = SMARSI(status)
-    strategy = EMA(status)
-#    strategy = SMA2(status)
+#    strategy = EMA(status)
+    strategy = SMA2(status)
 #    strategy = RSI(status)
-#    strategy = SMAOLS(status)
+#
 #    strategy = Granville(status)
 #    strategy = Momentum(status)
 #    strategy = BolingerBand(status)

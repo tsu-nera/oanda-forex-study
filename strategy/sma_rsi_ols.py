@@ -1,14 +1,16 @@
 from strategy.strategy import Strategy
 import pandas as pd
 
-# import numpy as np
+import numpy as np
+import statsmodels.api as sm
 # import talib
 
 
-class SMARSI(Strategy):
+class SMARSIOLS(Strategy):
     def __init__(self, status):
         Strategy.__init__(self, status)
 
+        self.beta = 50
         self.rsi = 50
         self.rsi_period = 20
 
@@ -18,13 +20,37 @@ class SMARSI(Strategy):
         self.mean_period_long = 40
         self.buy_threshold = 1.0
         self.sell_threshold = 1.0
-
         self.sma_short_ts = pd.DataFrame()
         self.sma_long_ts = pd.DataFrame()
+
+        self.sma_ols_ts = pd.DataFrame()
+        self.mean_for_ols_period = 20
+        self.ols_period = 20
+        self.a = 0
+        self.b = 0
+        self.pre_b = 0
 
     def calc_indicator(self, timeseries, event):
         self.calc_sma(timeseries, event)
         self.calc_rsi(timeseries, event)
+        self.calc_ols(timeseries, event)
+
+    def calc_ols(self, timeseries, event):
+        mean_for_ols = timeseries.get_latest_ts_as_df(
+            self.mean_for_ols_period).mean()[0]
+
+        self.sma_ols_ts.loc[event.time, event.instrument] = mean_for_ols
+
+        x = range(self.ols_period)
+        y = np.asarray(
+            self.sma_ols_ts.tail(self.ols_period)[event.instrument])
+
+        if len(y) < len(x):
+            return
+
+        results = sm.OLS(y, sm.add_constant(x), prepend=True).fit()
+        self.pre_b = self.b
+        self.a, self.b = results.params
 
     def calc_rsi(self, timeseries, event):
         delta = timeseries.get_latest_ts_as_df(
@@ -59,13 +85,17 @@ class SMARSI(Strategy):
         return self.rsi > 45 and self.rsi < 55
 
     def buy_condition(self):
-        return self.beta > 1.0 and self.beta_pre < 1.0 and not self.is_range()
+        return (self.beta > 1.0 and self.beta_pre < 1.0 \
+                or self.pre_b < 0 and self.b > 0) \
+                and not self.is_range()
 
     def close_buy_condition(self):
-        return self.beta < 1.0 and self.beta_pre > 1.0
+        return self.pre_b >= 0 and self.b < 0
 
     def sell_condition(self):
-        return self.beta < 1.0 and self.beta_pre > 1.0 and not self.is_range()
+        return (self.beta < 1.0 and self.beta_pre > 1.0 \
+                or self.pre_b >= 0 and self.b < 0) \
+                and not self.is_range()
 
     def close_sell_condition(self):
-        return self.beta > 1.0 and self.beta_pre < 1.0
+        return self.pre_b <= 0 and self.b > 0
