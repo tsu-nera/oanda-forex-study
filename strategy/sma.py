@@ -47,3 +47,9 @@ class SMA(Strategy):
 
     def sell_condition(self):
         return self.beta < self.sell_threshold
+
+    def close_buy_condition(self):
+        return self.beta < self.sell_threshold
+
+    def close_sell_condition(self):
+        return self.beta > self.buy_threshold

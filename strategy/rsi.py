@@ -10,7 +10,7 @@ class RSI(Strategy):
         Strategy.__init__(self, status)
 
         self.beta = 50
-        self.rsi_period = 14
+        self.rsi_period = 40
 
     def calc_indicator(self, timeseries, event):
         delta = timeseries.get_latest_ts_as_df(

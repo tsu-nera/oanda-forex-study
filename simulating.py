@@ -3,19 +3,22 @@ import queue
 
 from execution import SimulatedExecutionHandler
 from csv_parser import DukascopyCSVPriceHandler
-from strategy.sma_ols import SMAOLS
-from strategy.rsi import RSI
-#from strategy.granville import Granville
-#from strategy.sma import SMA
-#from strategy.ema import EMA
+
 #from parser import MetatraderCSVPriceHandler
-#from strategy.momentum import Momentum
-#from strategy.bolingerband import BolingerBand
 from portfolio import PortfolioLocal
 from progressbar import ProgressBar
 from timeseries import TimeSeries
 from manager import Manager
 
+from strategy.sma_ols import SMAOLS
+from strategy.sma_rsi import SMARSI
+from strategy.rsi import RSI
+from strategy.granville import Granville
+from strategy.sma import SMA
+from strategy.sma2 import SMA2
+from strategy.ema import EMA
+from strategy.momentum import Momentum
+from strategy.bolingerband import BolingerBand
 
 def simulating(events, manager):
     progress = ProgressBar(events.qsize()).start()
@@ -50,8 +53,11 @@ if __name__ == "__main__":
     execution = SimulatedExecutionHandler(status)
 
     timeseries = TimeSeries(True)
-
-    strategy = RSI(status)
+    
+#    strategy = SMARSI(status)
+    strategy = EMA(status)
+#    strategy = SMA2(status)
+#    strategy = RSI(status)
 #    strategy = SMAOLS(status)
 #    strategy = Granville(status)
 #    strategy = Momentum(status)
@@ -79,8 +85,8 @@ if __name__ == "__main__":
 
     plt.plot(timeseries.prices.index, timeseries.prices)
 
-    # plt.plot(strategy.sma_long_ts.index, strategy.sma_long_ts)
-    # plt.plot(strategy.sma_short_ts.index, strategy.sma_short_ts)
+    plt.plot(strategy.sma_long_ts.index, strategy.sma_long_ts)
+    plt.plot(strategy.sma_short_ts.index, strategy.sma_short_ts)
     # plt.plot(strategy.sma_ols_ts.index, strategy.sma_ols_ts)
 
     plt.plot(timeseries.buys.index, timeseries.buys, "ro")
