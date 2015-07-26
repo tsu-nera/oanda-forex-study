@@ -3,12 +3,14 @@ import queue
 
 from execution import SimulatedExecutionHandler
 from csv_parser import DukascopyCSVPriceHandler
-from strategy.granville import Granville
+from strategy.sma_ols import SMAOLS
+from strategy.rsi import RSI
+#from strategy.granville import Granville
 #from strategy.sma import SMA
 #from strategy.ema import EMA
 #from parser import MetatraderCSVPriceHandler
 #from strategy.momentum import Momentum
-from strategy.bolingerband import BolingerBand
+#from strategy.bolingerband import BolingerBand
 from portfolio import PortfolioLocal
 from progressbar import ProgressBar
 from timeseries import TimeSeries
@@ -49,7 +51,9 @@ if __name__ == "__main__":
 
     timeseries = TimeSeries(True)
 
-    strategy = Granville(status)
+    strategy = RSI(status)
+#    strategy = SMAOLS(status)
+#    strategy = Granville(status)
 #    strategy = Momentum(status)
 #    strategy = BolingerBand(status)
 
@@ -74,10 +78,10 @@ if __name__ == "__main__":
     #     portfolio.total_profit, portfolio.total_loss))
 
     plt.plot(timeseries.prices.index, timeseries.prices)
-    
-    plt.plot(strategy.sma_long_ts.index, strategy.sma_long_ts)
-    plt.plot(strategy.sma_short_ts.index, strategy.sma_short_ts)
-#    plt.plot(strategy.sma_ols_ts.index, strategy.sma_ols_ts)
+
+    # plt.plot(strategy.sma_long_ts.index, strategy.sma_long_ts)
+    # plt.plot(strategy.sma_short_ts.index, strategy.sma_short_ts)
+    # plt.plot(strategy.sma_ols_ts.index, strategy.sma_ols_ts)
 
     plt.plot(timeseries.buys.index, timeseries.buys, "ro")
     plt.plot(timeseries.sells.index, timeseries.sells, "go")

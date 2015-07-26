@@ -8,6 +8,7 @@
   - matplotlib
   - requests
   - progressbar2
+  - statsmodel
 
 * AWSへのインストールメモ
   Amazon Linuxを借りる.
