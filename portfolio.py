@@ -3,6 +3,7 @@ import oandapy
 from datetime import datetime
 import pandas as pd
 
+
 class Portfolio():
     def __init__(self, status):
         status["open_position"] = False

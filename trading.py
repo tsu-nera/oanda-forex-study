@@ -23,8 +23,8 @@ def on_tick(events, manager):
 
             manager.perform_trade(event)
 
-        manager.portfolio.show_current_status(event)
-        # manager.portfolio.print_status(event)
+            manager.portfolio.show_current_status(event)
+            # manager.portfolio.print_status(event)
 
         time.sleep(heartbeat)
 
