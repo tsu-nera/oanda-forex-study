@@ -9,10 +9,10 @@ from portfolio import PortfolioRemote
 from timeseries import TimeSeries
 from manager import Manager
 
-from strategy.sma import SMA
+from strategy.sma2 import SMA2
 
 
-heartbeat = 0.5
+heartbeat = 1.0
 
 
 def on_tick(events, manager):
@@ -23,7 +23,8 @@ def on_tick(events, manager):
 
             manager.perform_trade(event)
 
-            manager.portfolio.print_status(event)
+        manager.portfolio.show_current_status(event)
+        # manager.portfolio.print_status(event)
 
         time.sleep(heartbeat)
 
@@ -40,7 +41,7 @@ if __name__ == "__main__":
 
     execution = OANDAExecutionHandler(status)  # 売買注文
 
-    strategy = SMA(status)
+    strategy = SMA2(status)
 
     timeseries = TimeSeries(status)
 
