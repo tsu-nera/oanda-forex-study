@@ -34,6 +34,7 @@ if __name__ == "__main__":
                                      access_token=ACCESS_TOKEN)
 
     status = dict()  # tick をまたいで記憶しておきたい情報
+    status["is_sim"] = False
 
     portfolio = PortfolioRemote(status)  # お金管理
 
@@ -41,7 +42,7 @@ if __name__ == "__main__":
 
     strategy = SMA(status)
 
-    timeseries = TimeSeries(False)
+    timeseries = TimeSeries(status)
 
     manager = Manager(status, events, execution,
                       portfolio, strategy, timeseries)

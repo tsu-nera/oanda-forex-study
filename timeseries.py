@@ -3,14 +3,14 @@ import pandas as pd
 
 
 class TimeSeries():
-    def __init__(self, is_sim):
+    def __init__(self, status):
 
         self.resample_interval = '5s'
-        self.is_sim = is_sim
 
         self.prices = pd.DataFrame()
         self.buys = pd.DataFrame()
         self.sells = pd.DataFrame()
+        self.status = status
 
         self.resampled_prices = None
 
@@ -22,7 +22,7 @@ class TimeSeries():
             how='last',
             fill_method="ffill")
 
-        if not self.is_sim and len(self.resampled_prices) > 1000:
+        if not self.status["is_sim"] and len(self.resampled_prices) > 1000:
             self.resampled_prices.drop(self.resampled_prices(1).index)
 
     def add_buy_event(self, event):

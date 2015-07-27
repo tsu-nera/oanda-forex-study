@@ -36,7 +36,7 @@ class SMAOLS(Strategy):
         mean_for_ols = timeseries.get_latest_ts_as_df(
             self.mean_for_ols_period).mean()[0]
 
-        if timeseries.is_sim:
+        if self.status["is_sim"]:
             self.sma_short_ts.loc[event.time, event.instrument] = mean_short
             self.sma_long_ts.loc[event.time, event.instrument] = mean_long
 

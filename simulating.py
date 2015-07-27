@@ -10,6 +10,7 @@ from progressbar import ProgressBar
 from timeseries import TimeSeries
 from manager import Manager
 
+from strategy.sma_bol import SMABOL
 from strategy.sma_rsi_ols import SMARSIOLS
 from strategy.sma_ols import SMAOLS
 from strategy.sma_rsi import SMARSI
@@ -18,6 +19,7 @@ from strategy.granville import Granville
 from strategy.sma import SMA
 from strategy.sma2 import SMA2
 from strategy.ema import EMA
+from strategy.wma import WMA
 from strategy.momentum import Momentum
 from strategy.bolingerband import BolingerBand
 
@@ -48,16 +50,19 @@ if __name__ == "__main__":
     events = queue.Queue()  # 同期キュー
 
     status = dict()  # tick をまたいで記憶しておきたい情報
+    status["is_sim"] = True
 
     portfolio = PortfolioLocal(status)
 
     execution = SimulatedExecutionHandler(status)
 
-    timeseries = TimeSeries(True)
+    timeseries = TimeSeries(status)
 
+#    strategy = SMABOL(status)
 #    strategy = SMARSIOLS(status)
 #    strategy = SMARSI(status)
-    strategy = EMA(status)
+#    strategy = WMA(status)
+    strategy = SMAOLS(status)
 #    strategy = SMA2(status)
 #    strategy = RSI(status)
 #
@@ -72,7 +77,9 @@ if __name__ == "__main__":
 
     #    event_src = MetatraderCSVPriceHandler("EUR_USD", events)
     event_src = DukascopyCSVPriceHandler("EUR_USD", events,
-                                         "data/EURUSD_Ticks_24.07.2015-3H.csv")
+                                         "data/EURUSD_Ticks_24.07.2015-3H-3.csv")
+#                                         "data/EURUSD_Ticks_24.07.2015-24.07.2015.csv")
+    
     event_src.stream_to_queue()
 
     simulating(events, manager)

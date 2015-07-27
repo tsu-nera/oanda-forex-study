@@ -4,7 +4,7 @@ import pandas as pd
 import talib
 
 
-class EMA(Strategy):
+class WMA(Strategy):
     def __init__(self, status):
         Strategy.__init__(self, status)
 
@@ -12,8 +12,6 @@ class EMA(Strategy):
         self.beta_pre = 0
         self.mean_period_short = 20
         self.mean_period_long = 40
-        self.buy_threshold = 1.0
-        self.sell_threshold = 1.0
 
         self.sma_short_ts = pd.DataFrame()
         self.sma_long_ts = pd.DataFrame()

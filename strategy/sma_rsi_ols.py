@@ -10,9 +10,8 @@ class SMARSIOLS(Strategy):
     def __init__(self, status):
         Strategy.__init__(self, status)
 
-        self.beta = 50
         self.rsi = 50
-        self.rsi_period = 20
+        self.rsi_period = 10
 
         self.beta = 0
         self.beta_pre = 0
@@ -82,7 +81,7 @@ class SMARSIOLS(Strategy):
         self.beta = mean_short / mean_long
 
     def is_range(self):
-        return self.rsi > 45 and self.rsi < 55
+        return self.rsi > 40 and self.rsi < 60
 
     def buy_condition(self):
         return (self.beta > 1.0 and self.beta_pre < 1.0 \

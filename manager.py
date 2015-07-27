@@ -1,6 +1,5 @@
 from event import SignalEvent
 
-
 class Manager():
     def __init__(self, status, events,
                  execution, portfolio, strategy, timeseries):
@@ -28,6 +27,7 @@ class Manager():
 
             elif strategy.sell_condition():
                 self.order_and_calc_portfolio(event, False)
+
         else:
             if self.status["position"] < 0:
                 if strategy.close_sell_condition():
@@ -40,12 +40,12 @@ class Manager():
         if is_buy:
             signal = SignalEvent(event.instrument, event.time,
                                  "market", "buy", event.bid)
-            if self.ts.is_sim:
+            if self.status["is_sim"]:
                 self.ts.add_buy_event(event)
         else:
             signal = SignalEvent(event.instrument, event.time,
                                  "market", "sell", event.ask)
-            if self.ts.is_sim:
+            if self.status["is_sim"]:
                 self.ts.add_sell_event(event)
 
         self.execution.execute_order(signal)     # 売り買いの実行

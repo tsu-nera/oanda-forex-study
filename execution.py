@@ -4,7 +4,6 @@ from abc import ABCMeta, abstractmethod
 from settings import ACCESS_TOKEN, ACCOUNT_ID
 import oandapy
 
-
 class ExecutionHandler(object):
 
     __metaclass__ = ABCMeta
