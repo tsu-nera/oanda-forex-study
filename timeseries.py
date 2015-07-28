@@ -24,6 +24,8 @@ class TimeSeries():
 
         if not self.status["is_sim"] and len(self.resampled_prices) > 1000:
             self.resampled_prices.drop(self.resampled_prices(1).index)
+        if not self.status["is_sim"] and len(self.prices) > 1000:
+            self.prices.drop(self.prices(1).index)
 
     def add_buy_event(self, event):
         self.buys.loc[event.time, event.instrument] = event.bid

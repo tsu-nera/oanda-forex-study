@@ -37,7 +37,8 @@ class Portfolio():
         if self.status["position"] == 0:
             self.status["open_position"] = False
             self.calculate_realized_pnl(event)
-            self.rpnl.loc[event.time, "rpnl"] = self.status["realized_pnl"]
+            if self.status["is_sim"]:
+                self.rpnl.loc[event.time, "rpnl"] = self.status["realized_pnl"]
         else:
             self.status["opening_price"] = self.status["executed_price"]
             self.status["open_position"] = True
