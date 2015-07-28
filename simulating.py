@@ -44,9 +44,9 @@ def simulating(events, manager):
 def check_and_close_last_order(event):
     if events.empty():
         if status["position"] < 0:
-            manager.order_and_calc_portfolio(event, True)
+            manager.order_and_calc_portfolio(event, True, True)
         else:
-            manager.order_and_calc_portfolio(event, False)
+            manager.order_and_calc_portfolio(event, False, True)
 
 if __name__ == "__main__":
     events = queue.Queue()  # 同期キュー
@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
     timeseries = TimeSeries(status)
 
-    strategy = SMABOLPIP(status)
+    strategy = SMAPIP(status)
 #    strategy = SMAPIP(status)
 #    strategy = SMABOL(status)
 #    strategy = SMARSIOLS(status)
@@ -81,9 +81,9 @@ if __name__ == "__main__":
 
     #    event_src = MetatraderCSVPriceHandler("EUR_USD", events)
     event_src = DukascopyCSVPriceHandler("EUR_USD", events,
-                                         "data/EURUSD_Ticks_24.07.2015-3H-2.csv")
+                                         "data/EURUSD_Ticks_24.07.2015-3H.csv")
 #                                         "data/EURUSD_Ticks_24.07.2015-24.07.2015.csv")
-    
+
     event_src.stream_to_queue()
 
     simulating(events, manager)
@@ -105,6 +105,7 @@ if __name__ == "__main__":
 
     plt.plot(timeseries.buys.index, timeseries.buys, "ro")
     plt.plot(timeseries.sells.index, timeseries.sells, "go")
+    plt.plot(timeseries.closes.index, timeseries.closes, "yo")
 
     portfolio.rpnl.plot()
 

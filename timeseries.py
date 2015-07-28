@@ -10,6 +10,7 @@ class TimeSeries():
         self.prices = pd.DataFrame()
         self.buys = pd.DataFrame()
         self.sells = pd.DataFrame()
+        self.closes = pd.DataFrame()        
         self.status = status
 
         self.resampled_prices = None
@@ -22,16 +23,19 @@ class TimeSeries():
             how='last',
             fill_method="ffill")
 
-        if not self.status["is_sim"] and len(self.resampled_prices) > 1000:
-            self.resampled_prices.drop(self.resampled_prices(1).index)
-        if not self.status["is_sim"] and len(self.prices) > 1000:
-            self.prices.drop(self.prices(1).index)
+        if len(self.resampled_prices) > 1000:
+            self.resampled_prices.drop(self.resampled_prices.index[[1]])
+        if len(self.prices) > 1000:
+            self.prices.drop(self.prices.index[[1]])
 
     def add_buy_event(self, event):
         self.buys.loc[event.time, event.instrument] = event.bid
 
     def add_sell_event(self, event):
-        self.sells.loc[event.time, event.instrument] = event.ask
+        self.sells.loc[event.time, event.instrument] = event.bid
+
+    def add_close_event(self, event):
+        self.closes.loc[event.time, event.instrument] = event.bid
 
     def get_latest_ts_as_df(self, period):
         return self.resampled_prices.tail(period)

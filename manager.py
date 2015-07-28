@@ -23,30 +23,33 @@ class Manager():
     def check_condition(self, event, strategy):
         if not self.status["open_position"]:
             if strategy.buy_condition():
-                self.order_and_calc_portfolio(event, True)
+                self.order_and_calc_portfolio(event, True, False)
 
             elif strategy.sell_condition():
-                self.order_and_calc_portfolio(event, False)
+                self.order_and_calc_portfolio(event, False, False)
 
         else:
             if self.status["position"] < 0:
                 if strategy.close_sell_condition(event):
-                    self.order_and_calc_portfolio(event, True)
+                    self.order_and_calc_portfolio(event, True, True)
             else:
                 if strategy.close_buy_condition(event):
-                    self.order_and_calc_portfolio(event, False)
+                    self.order_and_calc_portfolio(event, False, True)
 
-    def order_and_calc_portfolio(self, event, is_buy):
+    def order_and_calc_portfolio(self, event, is_buy, is_close):
         if is_buy:
             signal = SignalEvent(event.instrument, event.time,
                                  "market", "buy", event.bid)
-            if self.status["is_sim"]:
+            if self.status["is_sim"] and not is_close:
                 self.ts.add_buy_event(event)
         else:
             signal = SignalEvent(event.instrument, event.time,
                                  "market", "sell", event.ask)
-            if self.status["is_sim"]:
+            if self.status["is_sim"] and not is_close:
                 self.ts.add_sell_event(event)
+
+        if self.status["is_sim"] and is_close:
+            self.ts.add_close_event(event)
 
         self.execution.execute_order(signal)     # 売り買いの実行
         self.portfolio.update_portfolio(signal)  # ポートフォリオ更新

@@ -7,8 +7,8 @@ class SMABOLPIP(Strategy):
 
         self.beta = 0
         self.beta_pre = 0
-        self.mean_period_short = 20
-        self.mean_period_long = 40
+        self.mean_period_short = 40
+        self.mean_period_long = 120
         self.buy_threshold = 1.0
         self.sell_threshold = 1.0
 

@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
     execution = OANDAExecutionHandler(status)  # 売買注文
 
-    strategy = SMAPIP(status)
+    strategy = SMA2(status)
 
     timeseries = TimeSeries(status)
 
