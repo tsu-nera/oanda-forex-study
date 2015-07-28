@@ -20,7 +20,7 @@ heartbeat = 0.5
 def on_tick(events, manager):
     while True:
         try:
-            print("get event...qsize=%s" % events.qsize())
+            # print("get event...qsize=%s" % events.qsize())
             event = events.get(False)
         except queue.Empty:
             pass
@@ -30,8 +30,8 @@ def on_tick(events, manager):
             manager.portfolio.show_current_status(event)
             # manager.portfolio.print_status(event)
 
-        print("[%s] heartbeating...qsize=%s" % (
-            datetime.now().time(), events.qsize()))
+        # print("[%s] heartbeating...qsize=%s" % (
+        #     datetime.now().time(), events.qsize()))
         time.sleep(heartbeat)
 
 if __name__ == "__main__":
