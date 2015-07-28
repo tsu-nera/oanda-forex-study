@@ -7,8 +7,8 @@ class SMAPIP(Strategy):
 
         self.beta = 0
         self.beta_pre = 0
-        self.mean_period_short = 20
-        self.mean_period_long = 100
+        self.mean_period_short = 25
+        self.mean_period_long = 75
         self.buy_threshold = 1.0
         self.sell_threshold = 1.0
 
@@ -32,10 +32,10 @@ class SMAPIP(Strategy):
         return self.beta > 1.0 and self.beta_pre < 1.0
 
     def close_buy_condition(self, event):
-        return abs(self.status["opening_price"] - event.bid) > 0.0003
+        return abs(self.status["opening_price"] - event.bid) > 0.0005
 
     def sell_condition(self):
         return self.beta < 1.0 and self.beta_pre > 1.0
 
     def close_sell_condition(self, event):
-        return abs(self.status["opening_price"] - event.bid) > 0.0003
+        return abs(self.status["opening_price"] - event.bid) > 0.0005

@@ -31,11 +31,11 @@ class SMA2(Strategy):
     def buy_condition(self):
         return self.beta > 1.0 and self.beta_pre < 1.0
 
-    def close_buy_condition(self):
+    def close_buy_condition(self, event):
         return self.beta < 1.0 and self.beta_pre > 1.0
 
     def sell_condition(self):
         return self.beta < 1.0 and self.beta_pre > 1.0
 
-    def close_sell_condition(self):
+    def close_sell_condition(self, event):
         return self.beta > 1.0 and self.beta_pre < 1.0
