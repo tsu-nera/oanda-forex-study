@@ -18,7 +18,6 @@ class SMABOL(Strategy):
 
         self.range1 = True
 
-
     def calc_indicator(self, timeseries, event):
         mean_short = timeseries.get_latest_ts_as_df(
             self.mean_period_short).mean()[0]
@@ -36,13 +35,16 @@ class SMABOL(Strategy):
         self.bolingerband = 2 * std
         self.price = event.bid - mean_short
 
-        uprange = mean_short + std
-        downrange = mean_short - std
+        self.calc_range(event, mean_short, std)
+
+    def calc_range(self, event, mean, std):
+        uprange = mean + std
+        downrange = mean - std
 
         self.range1 = downrange < event.bid and event.bid < uprange
 
         self.bolingerband = 2 * std
-        self.price = event.bid - mean_short
+        self.price = event.bid - mean
 
     def is_range(self):
         return self.range1

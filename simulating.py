@@ -10,6 +10,7 @@ from progressbar import ProgressBar
 from timeseries import TimeSeries
 from manager import Manager
 
+from strategy.sma_cut_pip import SMAPIP
 from strategy.sma_bol import SMABOL
 from strategy.sma_rsi_ols import SMARSIOLS
 from strategy.sma_ols import SMAOLS
@@ -58,11 +59,12 @@ if __name__ == "__main__":
 
     timeseries = TimeSeries(status)
 
+    strategy = SMAPIP(status)
 #    strategy = SMABOL(status)
 #    strategy = SMARSIOLS(status)
 #    strategy = SMARSI(status)
 #    strategy = WMA(status)
-    strategy = SMAOLS(status)
+#    strategy = SMAOLS(status)
 #    strategy = SMA2(status)
 #    strategy = RSI(status)
 #
@@ -88,8 +90,8 @@ if __name__ == "__main__":
 
     print("Total Order Count: %s" % portfolio.order_count)
     print("Realized P&L     : %s" % round(status["realized_pnl"], 5))
-    print("Profit Factor    : %s" % round(
-        portfolio.total_profit/portfolio.total_loss, 5))
+    # print("Profit Factor    : %s" % round(
+    #     portfolio.total_profit/portfolio.total_loss, 5))
     # print("Profit/Loss      : %s/%s" % (
     #     portfolio.total_profit, portfolio.total_loss))
 

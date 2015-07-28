@@ -30,10 +30,10 @@ class Manager():
 
         else:
             if self.status["position"] < 0:
-                if strategy.close_sell_condition():
+                if strategy.close_sell_condition(event):
                     self.order_and_calc_portfolio(event, True)
             else:
-                if strategy.close_buy_condition():
+                if strategy.close_buy_condition(event):
                     self.order_and_calc_portfolio(event, False)
 
     def order_and_calc_portfolio(self, event, is_buy):
