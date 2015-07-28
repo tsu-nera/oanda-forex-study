@@ -110,7 +110,7 @@ if __name__ == "__main__":
 
     #    event_src = MetatraderCSVPriceHandler("EUR_USD", events)
     event_src = DukascopyCSVPriceHandler("EUR_USD", events,
-                                         "data/EURUSD_Ticks_24.07.2015-1H.csv")
+                                         "data/EURUSD_Ticks_24.07.2015-3H-2.csv")
 #                                         "data/EURUSD_Ticks_24.07.2015-24.07.2015.csv")
 
     event_src.stream_to_queue()

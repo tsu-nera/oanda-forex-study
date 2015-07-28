@@ -10,6 +10,8 @@ class SMA(Strategy):
         self.sma_pre = 0
         self.mean_period_short = 20
         self.mean_period_long = 40
+        self.sma_mean_short = 0
+        self.sma_mean_long = 0
         self.sma_short_ts = pd.DataFrame()
         self.sma_long_ts = pd.DataFrame()
 
@@ -17,17 +19,19 @@ class SMA(Strategy):
         self.calc_cms(timeseries, event)
 
     def calc_sma(self, timeseries, event):
-        mean_short = timeseries.get_latest_ts_as_df(
+        self.sma_mean_short = timeseries.get_latest_ts_as_df(
             self.mean_period_short).mean()[0]
-        mean_long = timeseries.get_latest_ts_as_df(
+        self.sma_mean_long = timeseries.get_latest_ts_as_df(
             self.mean_period_long).mean()[0]
 
         if self.status["is_sim"]:
-            self.sma_short_ts.loc[event.time, event.instrument] = mean_short
-            self.sma_long_ts.loc[event.time, event.instrument] = mean_long
+            self.sma_short_ts.loc[event.time, event.instrument] \
+                = self.sma_mean_short
+            self.sma_long_ts.loc[event.time, event.instrument] \
+                = self.sma_mean_long
 
         self.sma_pre = self.sma
-        self.sma = mean_short / mean_long
+        self.sma = self.sma_mean_short / self.sma_mean_long
 
     def sma_buy_condition(self):
         return self.sma > 1.0 and self.sma_pre < 1.0
