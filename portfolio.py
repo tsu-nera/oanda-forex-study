@@ -16,6 +16,9 @@ class Portfolio():
         self.total_loss = 0
         self.spread = 0.00005
 
+        self.win_count = 0
+        self.lose_count = 0
+
         status["opening_price"] = 0
         status["executed_price"] = 0
         status["unrealized_pnl"] = 0
@@ -52,12 +55,12 @@ class Portfolio():
              - self.spread))
         self.status["realized_pnl"] += current_pnl
 
-        # self.print_current_status(event, current_pnl)
-
         if current_pnl > 0:
             self.total_profit += current_pnl
+            self.win_count += 1
         else:
             self.total_loss -= current_pnl
+            self.lose_count += 1
 
     def print_current_status(self, event, pnl):
         print("[%s] no=%2s open_price=%.7s exe_price=%.7s PnL=%.7s" % (

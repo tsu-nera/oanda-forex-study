@@ -48,6 +48,35 @@ def check_and_close_last_order(event):
         else:
             manager.order_and_calc_portfolio(event, False, True)
 
+
+def show_result():
+    print("Total Order Count: %s" % portfolio.order_count)
+    print("Realized P&L     : %s" % round(status["realized_pnl"], 5))
+    print("win and lose     : %s / %s"
+          %(portfolio.win_count, portfolio.lose_count))
+    # print("Profit Factor    : %s" % round(
+    #     portfolio.total_profit/portfolio.total_loss, 5))
+    # print("Profit/Loss      : %s/%s" % (
+    #     portfolio.total_profit, portfolio.total_loss))
+
+
+def plot_data():
+    plt.plot(timeseries.prices.index, timeseries.prices)
+
+    plt.plot(strategy.sma_long_ts.index, strategy.sma_long_ts)
+    plt.plot(strategy.sma_short_ts.index, strategy.sma_short_ts)
+    # plt.plot(strategy.sma_ols_ts.index, strategy.sma_ols_ts)
+
+    plt.plot(timeseries.buys.index, timeseries.buys, "ro")
+    plt.plot(timeseries.sells.index, timeseries.sells, "go")
+    plt.plot(timeseries.closes.index, timeseries.closes, "yo")
+
+    portfolio.rpnl.plot()
+
+    plt.grid(True)
+    plt.show()
+
+
 if __name__ == "__main__":
     events = queue.Queue()  # 同期キュー
 
@@ -81,7 +110,7 @@ if __name__ == "__main__":
 
     #    event_src = MetatraderCSVPriceHandler("EUR_USD", events)
     event_src = DukascopyCSVPriceHandler("EUR_USD", events,
-                                         "data/EURUSD_Ticks_24.07.2015-3H.csv")
+                                         "data/EURUSD_Ticks_24.07.2015-1H.csv")
 #                                         "data/EURUSD_Ticks_24.07.2015-24.07.2015.csv")
 
     event_src.stream_to_queue()
@@ -90,24 +119,5 @@ if __name__ == "__main__":
 
     print("=== End .... v(^_^)v  =================================== ")
 
-    print("Total Order Count: %s" % portfolio.order_count)
-    print("Realized P&L     : %s" % round(status["realized_pnl"], 5))
-    # print("Profit Factor    : %s" % round(
-    #     portfolio.total_profit/portfolio.total_loss, 5))
-    # print("Profit/Loss      : %s/%s" % (
-    #     portfolio.total_profit, portfolio.total_loss))
-
-    plt.plot(timeseries.prices.index, timeseries.prices)
-
-    plt.plot(strategy.sma_long_ts.index, strategy.sma_long_ts)
-    plt.plot(strategy.sma_short_ts.index, strategy.sma_short_ts)
-    # plt.plot(strategy.sma_ols_ts.index, strategy.sma_ols_ts)
-
-    plt.plot(timeseries.buys.index, timeseries.buys, "ro")
-    plt.plot(timeseries.sells.index, timeseries.sells, "go")
-    plt.plot(timeseries.closes.index, timeseries.closes, "yo")
-
-    portfolio.rpnl.plot()
-
-    plt.grid(True)
-    plt.show()
+    show_result()
+    plot_data()

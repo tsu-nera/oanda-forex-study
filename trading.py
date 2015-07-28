@@ -10,7 +10,7 @@ from portfolio import PortfolioRemote
 from timeseries import TimeSeries
 from manager import Manager
 
-from strategy.sma2 import SMA2
+from strategy.sma import SMA
 from strategy.sma_pip import SMAPIP
 
 
@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
     execution = OANDAExecutionHandler(status)  # 売買注文
 
-    strategy = SMA2(status)
+    strategy = SMA(status)
 
     timeseries = TimeSeries(status)
 
