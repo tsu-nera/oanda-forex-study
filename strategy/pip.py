@@ -32,16 +32,30 @@ class PIP(Strategy):
         return abs(self.status["opening_price"] - self.pip_mean) \
             > self.pip_diff
 
+    def pip_loss_cut_condition(self, event):
+        # 損切りラインは 3pipにする.
+        if abs(self.status["opening_price"] - self.pip_mean) \
+           > 0.00035:
+            if self.status["position"] > 0:
+                # 買いかつ損切り
+                if (self.pip_mean - self.status["opening_price"] < 0):
+                    return True
+            else:
+                # 売りかつ損切り
+                if (self.status["opening_price"] - self.pip_mean < 0):
+                    return True
+
     def pip_expand_close_condition(self, event):
         if self.pip_diff > 0.0005 \
            and abs(self.status["opening_price"] - self.pip_mean) \
            < self.pip_diff - 0.00015:
             return True
 
+        # 利確の場合は動的にリミットを広げていく.
         if abs(self.status["opening_price"] - self.pip_mean) \
            > self.pip_diff:
-            # 売りかつ利確の場合
             if self.status["position"] > 0:
+                # 売りかつ利確の場合
                 if (self.pip_mean - self.status["opening_price"] > 0):
                     self.pip_diff += 0.0001
                     return False
