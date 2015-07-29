@@ -1,7 +1,7 @@
 from __future__ import print_function
 
 from abc import ABCMeta, abstractmethod
-from settings import ACCESS_TOKEN, ACCOUNT_ID
+from settings import ACCESS_TOKEN, ACCOUNT_ID, DOMAIN
 import oandapy
 
 class ExecutionHandler(object):
@@ -24,7 +24,7 @@ class SimulatedExecutionHandler(ExecutionHandler):
 class OANDAExecutionHandler(ExecutionHandler):
 
     def __init__(self, status):
-        self.oanda = oandapy.API("practice", ACCESS_TOKEN)
+        self.oanda = oandapy.API(DOMAIN, ACCESS_TOKEN)
         self.status = status
 
     def execute_order(self, event):

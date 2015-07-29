@@ -2,7 +2,7 @@ import oandapy
 import queue
 from datetime import datetime
 
-from settings import ACCESS_TOKEN, ACCOUNT_ID
+from settings import ACCESS_TOKEN, ACCOUNT_ID, DOMAIN
 from event import TickEvent
 
 
@@ -29,6 +29,6 @@ class StreamingForexPrices(oandapy.Streamer):
 
 
 if __name__ == "__main__":
-    prices = StreamingForexPrices(environment="practice",
+    prices = StreamingForexPrices(environment=DOMAIN,
                                   access_token=ACCESS_TOKEN)
     prices.begin(ACCOUNT_ID, "EUR_USD", queue.Queue())

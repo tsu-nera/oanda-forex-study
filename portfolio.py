@@ -1,4 +1,4 @@
-from settings import ACCESS_TOKEN, ACCOUNT_ID
+from settings import ACCESS_TOKEN, ACCOUNT_ID, DOMAIN
 import oandapy
 from datetime import datetime
 import pandas as pd
@@ -26,7 +26,7 @@ class Portfolio():
 
         self.rpnl = pd.DataFrame()
 
-        self.oanda = oandapy.API("practice", ACCESS_TOKEN)
+        self.oanda = oandapy.API(DOMAIN, ACCESS_TOKEN)
 
     def update_portfolio(self, event):
         # Update position upon successful order

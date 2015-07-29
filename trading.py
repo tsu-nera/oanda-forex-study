@@ -3,7 +3,7 @@ import threading
 import time
 from datetime import datetime
 
-from settings import ACCESS_TOKEN, ACCOUNT_ID
+from settings import ACCESS_TOKEN, ACCOUNT_ID, DOMAIN
 from execution import OANDAExecutionHandler
 from streaming import StreamingForexPrices
 from portfolio import PortfolioRemote
@@ -37,7 +37,7 @@ def on_tick(events, manager):
 if __name__ == "__main__":
     events = queue.Queue()  # 同期キュー
 
-    price_src = StreamingForexPrices(environment="practice",
+    price_src = StreamingForexPrices(environment=DOMAIN,
                                      access_token=ACCESS_TOKEN)
 
     status = dict()  # tick をまたいで記憶しておきたい情報
