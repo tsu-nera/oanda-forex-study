@@ -84,6 +84,34 @@
   Realized P&L     : 0.18
   win and lose     : 5 / 3
 
+  ==================
+  7/28 3H-3
+  ==================
+  7/28-3
+  sma pip
+  悪いと頑張りがいがある...
+  Total Order Count: 29
+  Realized P&L     : -1.3
+  win and lose     : 6 / 8
+
+  よくなった.
+  Total Order Count: 59
+  Realized P&L     : -0.39
+  win and lose     : 11 / 18
+
+  7/28 3H-2 よくなった. 
+  この論理はいれるかどうか悩む...
+  Total Order Count: 45
+  Realized P&L     : 0.14
+  win and lose     : 7 / 15
+
+  7/28 3H sma pip
+  Total Order Count: 28
+  Realized P&L     : 0.71
+  win and lose     : 11 / 3
+
+  よし、いれよう!
+
 * <2015-07-28 火>
   pipで売却する戦略をとったら、かなりいい結果が出てきた.
 

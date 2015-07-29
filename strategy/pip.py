@@ -7,8 +7,11 @@ class PIP(Strategy):
 
         self.pip_diff = 0.0005
         self.pip_mean_period = 3
+        self.pip_mean = 0
+        self.pip_mean_pre = 0
 
     def calc_pip_mean(self, timeseries, event):
+        self.pip_mean_pre = self.pip_mean
         self.pip_mean \
             = timeseries.get_latest_ts_as_df(self.pip_mean_period).mean()[0]
 
@@ -70,3 +73,14 @@ class PIP(Strategy):
                     return True
         else:
             return False
+
+    def pip_return_condition(self, event):
+        if self.pip_mean_pre == 0:
+            return False
+        if self.pip_mean_pre > self.status["opening_price"] \
+           and self.pip_mean < self.status["opening_price"]:
+            return True
+        if self.pip_mean_pre < self.status["opening_price"] \
+           and self.pip_mean > self.status["opening_price"]:
+            return True
+        return False
