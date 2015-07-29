@@ -16,9 +16,14 @@ class SMA(Strategy):
         self.sma_long_ts = pd.DataFrame()
 
     def calc_indicator(self, timeseries, event):
-        self.calc_cms(timeseries, event)
+        self.calc_sma(timeseries, event)
+
+        self.print_data()
 
     def calc_sma(self, timeseries, event):
+        self.sma_mean_short_pre = self.sma_mean_short
+        self.sma_mean_long_pre = self.sma_mean_long
+
         self.sma_mean_short = timeseries.get_latest_ts_as_df(
             self.mean_period_short).mean()[0]
         self.sma_mean_long = timeseries.get_latest_ts_as_df(
@@ -30,14 +35,13 @@ class SMA(Strategy):
             self.sma_long_ts.loc[event.time, event.instrument] \
                 = self.sma_mean_long
 
-        self.sma_pre = self.sma
-        self.sma = self.sma_mean_short / self.sma_mean_long
-
     def sma_buy_condition(self):
-        return self.sma > 1.0 and self.sma_pre < 1.0
+        return self.sma_mean_short_pre < self.sma_mean_long_pre \
+            and self.sma_mean_short > self.sma_mean_long
 
     def sma_sell_condition(self):
-        return self.sma < 1.0 and self.sma_pre > 1.0
+        return self.sma_mean_short_pre > self.sma_mean_long_pre \
+            and self.sma_mean_short < self.sma_mean_long
 
     def buy_condition(self):
         return self.sma_buy_condition()
@@ -50,3 +54,7 @@ class SMA(Strategy):
 
     def close_sell_condition(self, event):
         return self.sma_buy_condition()
+
+    def print_data(self):
+        print("sma_short=%s sma_long=%s"
+              % (self.sma_mean_short, self.sma_mean_long))

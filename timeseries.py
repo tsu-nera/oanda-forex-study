@@ -24,9 +24,9 @@ class TimeSeries():
             fill_method="ffill")
 
         if len(self.resampled_prices) > 1000:
-            self.resampled_prices.drop(self.resampled_prices.index[[1]])
+            self.resampled_prices.drop(self.resampled_prices.index[[0]])
         if len(self.prices) > 1000:
-            self.prices.drop(self.prices.index[[1]])
+            self.prices.drop(self.prices.index[[0]])
 
     def add_buy_event(self, event):
         self.buys.loc[event.time, event.instrument] = event.bid

@@ -17,7 +17,6 @@ class SMAPIP(SMA):
         self.pip_mean \
             = timeseries.get_latest_ts_as_df(self.pip_mean_period).mean()[0]
 
-        print(self.pip_diff)
         # 利益確定条件を動的に伸ばす
         if not self.status["open_position"]:
             self.pip_diff = 0.0005
@@ -25,7 +24,7 @@ class SMAPIP(SMA):
     # 4回クロスしたらcloseする
     def calc_pip_over_closs(self, timeseries, event):
         if self.status["open_position"]:
-            if ((self.sma-1)*(self.sma_pre-1) < 0):
+            if (self.sma_buy_condition() or self.sma_sell_condition()):
                 self.pip_closs_count += 1
         else:
             self.pip_closs_count = 0
@@ -67,12 +66,16 @@ class SMAPIP(SMA):
         return self.sma_buy_condition()
 
     def close_buy_condition(self, event):
-        return self.pip_expand_close_condition(event)
-#            or self.pip_over_cross_condiiton(event)
+        return self.pip_over_cross_condiiton(event)
+#        return self.pip_close_condition(event) \
+ #           or self.pip_over_cross_condiiton(event)
+#        return self.pip_expand_close_condition(event)
 
     def sell_condition(self):
         return self.sma_sell_condition()
 
     def close_sell_condition(self, event):
-        return self.pip_expand_close_condition(event)
+        return self.pip_over_cross_condiiton(event)
+#        return self.pip_close_condition(event) \
 #            or self.pip_over_cross_condiiton(event)
+#        return self.pip_expand_close_condition(event)

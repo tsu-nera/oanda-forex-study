@@ -67,9 +67,12 @@ def plot_data():
     plt.plot(strategy.sma_short_ts.index, strategy.sma_short_ts)
     # plt.plot(strategy.sma_ols_ts.index, strategy.sma_ols_ts)
 
-    plt.plot(timeseries.buys.index, timeseries.buys, "ro")
-    plt.plot(timeseries.sells.index, timeseries.sells, "go")
-    plt.plot(timeseries.closes.index, timeseries.closes, "yo")
+    if not len(timeseries.buys) == 0:
+        plt.plot(timeseries.buys.index, timeseries.buys, "g^")
+    if not len(timeseries.sells) == 0:
+        plt.plot(timeseries.sells.index, timeseries.sells, "rv")
+    if not len(timeseries.closes) == 0:
+        plt.plot(timeseries.closes.index, timeseries.closes, "yo")
 
     portfolio.rpnl.plot()
 
@@ -110,7 +113,7 @@ if __name__ == "__main__":
 
     #    event_src = MetatraderCSVPriceHandler("EUR_USD", events)
     event_src = DukascopyCSVPriceHandler("EUR_USD", events,
-                                         "data/EURUSD_Ticks_24.07.2015-3H-2.csv")
+                                         "data/EURUSD_Ticks_28.07.2015-3H.csv")
 #                                         "data/EURUSD_Ticks_24.07.2015-24.07.2015.csv")
 
     event_src.stream_to_queue()
