@@ -48,8 +48,11 @@ class Manager():
             if self.status["is_sim"] and not is_close:
                 self.ts.add_sell_event(event)
 
-        if self.status["is_sim"] and is_close:
-            self.ts.add_close_event(event)
-
         self.execution.execute_order(signal)     # 売り買いの実行
         self.portfolio.update_portfolio(signal)  # ポートフォリオ更新
+
+        if self.status["is_sim"] and is_close:
+            if self.portfolio.is_win():
+                self.ts.add_close_win_event(event)
+            else:
+                self.ts.add_close_lose_event(event)

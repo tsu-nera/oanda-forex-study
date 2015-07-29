@@ -15,6 +15,7 @@ class Portfolio():
         self.total_profit = 0
         self.total_loss = 0
         self.spread = 0.00005
+        self.current_pnl = 0
 
         self.win_count = 0
         self.lose_count = 0
@@ -47,20 +48,23 @@ class Portfolio():
             self.status["open_position"] = True
 
     def calculate_realized_pnl(self, event):
-        current_pnl = self.unit * (
+        self.current_pnl = self.unit * (
             (self.status["opening_price"] - self.status["executed_price"]
              - self.spread)
             if event.side == "buy" else
             (self.status["executed_price"] - self.status["opening_price"]
              - self.spread))
-        self.status["realized_pnl"] += current_pnl
+        self.status["realized_pnl"] += self.current_pnl
 
-        if current_pnl > 0:
-            self.total_profit += current_pnl
+        if self.is_win():
+            self.total_profit += self.current_pnl
             self.win_count += 1
         else:
-            self.total_loss -= current_pnl
+            self.total_loss -= self.current_pnl
             self.lose_count += 1
+
+    def is_win(self):
+        return self.current_pnl > 0
 
     def print_current_status(self, event, pnl):
         print("[%s] no=%2s open_price=%.7s exe_price=%.7s PnL=%.7s" % (

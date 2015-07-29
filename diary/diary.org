@@ -1,0 +1,516 @@
+* <2015-07-29 水>
+  取引結果と、平行移動線があわない. 
+  調査方法が分からないが、保留にしたくないな。どうしようか.
+
+  dukascopyの結果はあるサンプルだとして、
+  この与えられたデータでの改善をする.
+
+  sma_ols なかなかよい結果だけれども、取引回数が多すぎる.
+
+  Total Order Count: 110
+  Realized P&L     : 1.1
+  win and lose     : 36 / 19
+
+  sma ols pip
+
+  Total Order Count: 108
+  Realized P&L     : 1.1
+  win and lose     : 36 / 18
+
+  変化なし.
+
+  sma ols pip
+  エントリのタイミングをsmaのみに変更.
+  Total Order Count: 51
+  Realized P&L     : 0.5
+  win and lose     : 17 / 8
+
+  やや勝率あっぷか?
+
+  sma ols pip 3H
+
+  Total Order Count: 67
+  Realized P&L     : 0.06
+  win and lose     : 10 / 23
+
+  sma ols pip 3H-2
+  Total Order Count: 65
+  Realized P&L     : -0.69
+  win and lose     : 9 / 23
+
+  この配合は、あまりよくないな。。
+
+  sma_pip 脅威の勝率.
+  Total Order Count: 18
+  Realized P&L     : 1.89
+  win and lose     : 8 / 1
+
+  3H-2
+
+  Total Order Count: 36
+  Realized P&L     : 0.97
+  win and lose     : 10 / 8
+
+  ==================
+  7/28 3H-2
+  ==================
+  
+  sma pip
+
+  Total Order Count: 16
+  Realized P&L     : 0.07
+  win and lose     : 5 / 3
+
+  sma ols
+  
+
+* <2015-07-28 火>
+  pipで売却する戦略をとったら、かなりいい結果が出てきた.
+
+  3H sma_pip
+
+  Total Order Count: 16
+  Realized P&L     : 1.37
+  Profit Factor    : 2.30476
+
+  3H-2 sma_pip
+  Total Order Count: 10
+  Realized P&L     : 1.99
+
+  3H-3 sma_pip
+
+  Total Order Count: 30
+  Realized P&L     : 1.95
+
+  すごいな、ほんとかなー.
+
+  3H sma_bol_pip 
+
+  Total Order Count: 16
+  Realized P&L     : -1.74
+
+  すごく悪くなった
+
+  3H-2 sma_bol_pip
+
+  Total Order Count: 14
+  Realized P&L     : -3.15
+  
+  ひどいな...
+
+  ボリンジャーバンドを逆張りに利用すると、そこそこの数値かでる.
+
+  3H
+
+  Total Order Count: 16
+  Realized P&L     : 0.07
+
+  3H sma_bol_pip 40/120
+
+  Total Order Count: 16
+  Realized P&L     : 1.18
+
+  3H 平行線の間隔を大きくしたら改善した.
+
+  3H sma_pip 40/120
+
+  Total Order Count: 16
+  Realized P&L     : 0.35
+
+  改善はしなかった. しかし、間隔はおおきいほうがいいだろう.
+
+  4回クロスしたら手仕舞うロジックを追加した.
+
+  3H sma_pip 25/75 
+
+  Total Order Count: 22
+  Realized P&L     : 0.6
+  win and lose     : 6 / 5
+
+  3H-2  sma_pip 25/75 
+
+  Total Order Count: 18
+  Realized P&L     : 0.74
+  win and lose     : 7 / 2
+
+  つおい.
+
+  3H-3  sma_pip 25/75 
+
+  Total Order Count: 36
+  Realized P&L     : -0.17
+  win and lose     : 9 / 9
+  
+  まあまあ.
+
+  3H-3  sma_pip 25/75 
+
+  Total Order Count: 36
+  Realized P&L     : -0.69
+  win and lose     : 9 / 9
+
+  3H-3  sma_pip 25/75 
+
+  Total Order Count: 70
+  Realized P&L     : -0.05
+  win and lose     : 10 / 25
+
+  動的に、利確リミットを伸ばすようにした. 
+  どこかバクってるのかな...e
+
+  Total Order Count: 36
+  Realized P&L     : -0.27
+  win and lose     : 9 / 9
+
+  できた. 改善できず、悪化してる...
+
+  Total Order Count: 36
+  Realized P&L     : 0.12
+  win and lose     : 9 / 9
+
+
+  Total Order Count: 36
+  Realized P&L     : -0.08
+  win and lose     : 9 / 9
+
+  +0.003にしてみた。改善はしているようだ.
+  平均をとるほうがいいな. 
+  急激な落ち込みに反応してるよう.  
+
+  平均で勝負した結果. こんなに悪くなってしまった.
+
+  Total Order Count: 24
+  Realized P&L     : -2.51
+  win and lose     : 5 / 7
+
+  改善はするけど、って感じだな.
+
+  Total Order Count: 24
+  Realized P&L     : -2.49
+  win and lose     : 5 / 7
+
+  4回でclose論理を外した方がいい点数がでたな.
+  Total Order Count: 26
+  Realized P&L     : -0.2
+  win and lose     : 7 / 6
+
+  3H-2
+
+  Total Order Count: 12
+  Realized P&L     : 1.28
+  win and lose     : 5 / 1
+  
+* <2015-07-26 日>
+  RSIを実装する. SMAの代わりに EMAや MACDを調べてみてもいいかも.
+  - http://stackoverflow.com/questions/20526414/relative-strength-index-in-python-pandas-
+  - http://matplotlib.org/examples/pylab_examples/finance_work2.html
+
+  n = 14 1H
+
+  Total Order Count: 52
+  Realized P&L     : 1.65
+  Profit Factor    : 3.94643
+
+  いきなり記録更新なのだが...
+
+  n = 20 1H
+
+  Total Order Count: 34
+  Realized P&L     : 1.04
+  Profit Factor    : 2.625
+
+  n = 40 1H 
+
+  Total Order Count: 12
+  Realized P&L     : 0.53
+  Profit Factor    : 2.325
+
+  レンジ相場での発注はでない.
+
+  n = 14 3H
+
+  Total Order Count: 160
+  Realized P&L     : 4.27
+  Profit Factor    : 3.0628
+
+  つおいな. 
+
+  単に取引回数がおおいのかな？
+  手数料を考慮すると、また変化するだろうか？
+
+  OANDA の EUR_USDのスプレッドを考慮
+  - http://www.oanda.jp/ratepanel/
+
+  n = 14 1H
+
+  Total Order Count: 52
+  Realized P&L     : 0.35
+  Profit Factor    : 1.27132
+
+  妥当な結果になった.
+
+  SMA_OLS with spread 20/40 1H
+
+  Total Order Count: 40
+  Realized P&L     : 0.18
+  Profit Factor    : 1.18182
+
+  やはりレンジでの無駄な取引をすると マイナスになってしまう.
+
+  SMA_OLS with spread 20/40 1H
+  Total Order Count: 142
+  Realized P&L     : -0.36
+  Profit Factor    : 0.90649
+
+  マイナスになってしまうた..
+
+  RSI n=14 3H
+
+  Total Order Count: 160
+  Realized P&L     : 0.27
+  Profit Factor    : 1.05908
+
+  おっ、プラスだ.
+
+  RSI n=40 3H
+
+  Total Order Count: 32
+  Realized P&L     : 0.22
+  Profit Factor    : 1.16418
+
+  単純なSMAの実力もはかっておこう
+
+  SMA 20/40 3H
+
+  Total Order Count: 114
+  Realized P&L     : -0.11
+  Profit Factor    : 0.96802
+
+  SMAは改造が必要だった. SMA2を作成して計測
+
+  SMA2 20/40 3H
+
+  Total Order Count: 55
+  Realized P&L     : 0.85
+  Profit Factor    : 1.64394
+
+  !! つおい結果がでた
+
+  この Realized P&Lは 日本円にするといくらになるんだろうか？
+
+  SMA_RSI range 45/55 sma 20/40 1H
+
+  Total Order Count: 16
+  Realized P&L     : 0.24
+  Profit Factor    : 1.61538
+
+  SMA_RSI range 45/55 40/sma 20/40 3H
+
+  Total Order Count: 37
+  Realized P&L     : -0.03
+  Profit Factor    : 0.9703
+
+  うーむ、マイナスになってしまった.
+
+  SMA_RSI range 45/55 20 /sma 20/40 3He ★
+
+  Total Order Count: 49
+  Realized P&L     : 0.86
+  Profit Factor    : 1.6014
+
+  RSI値を弱くしたらマイナスを脱出. 単純なSMAよりも、0.01アップ.
+
+  SMA_RSI range 45/55 30 /sma 20/40 3H
+
+  Total Order Count: 41
+  Realized P&L     : 0.58
+  Profit Factor    : 1.44961
+
+  EMA 20/40 3H
+
+  Total Order Count: 55
+  Realized P&L     : 0.77
+  Profit Factor    : 1.53846
+
+  SMAよりは劣るようだ.
+
+  SMA + RSI + OLS 
+
+  Total Order Count: 118
+  Realized P&L     : -0.24
+  Profit Factor    : 0.93064
+
+  いろいろ混ぜたらマイナスになった.
+  結局、シンプルな SMAが点数が高いという皮肉な結果になった.
+  
+  明日は、SMAで勝負するか・・・というか、今日か. 
+  他に改善点が見つからない.
+
+  自分にはこれしかやることがないので、もう少し頑張ってみる.
+  
+  WMA/SMA 20/40 3H 
+
+  Total Order Count: 65
+  Realized P&L     : 0.87
+  Profit Factor    : 1.6
+
+  記録更新した！
+
+  SMA BOL 
+
+  Total Order Count: 78
+  Realized P&L     : 0.73
+  Profit Factor    : 1.29675
+
+  1.0代を更新したけれども、最後に点数が落ちて0.7へ.
+
+  SMA BOL data2
+
+  Total Order Count: 76
+  Realized P&L     : 0.73
+  Profit Factor    : 1.38021
+
+  WMA data2 
+  
+  Total Order Count: 65
+  Realized P&L     : -0.36
+  Profit Factor    : 0.82439
+
+  最強だったはずの君が、まさかのマイナスとは？
+
+  SMA RSI こいつも...
+
+  Total Order Count: 52
+  Realized P&L     : -0.01
+  Profit Factor    : 0.99401
+
+  data3 SMA BOL
+
+  Total Order Count: 106
+  Realized P&L     : -4.25
+  Profit Factor    : 0.55775
+
+  期間3で、こんなことに.
+
+  data3 SMA RSI
+
+  Total Order Count: 68
+  Realized P&L     : -1.18
+  Profit Factor    : 0.78929
+
+  data3 WMA
+
+  Total Order Count: 96
+  Realized P&L     : -3.91
+  Profit Factor    : 0.41026
+
+  data3 SMA  
+
+  Total Order Count: 77
+  Realized P&L     : -3.79
+  Profit Factor    : 0.4451
+
+  ここまでだと、SMA RSIが成績がよい. これで、フルテストをしてみる.
+  
+  記録帰依チャンタけど、 -6.00 くらい. もうやだよ.
+
+* <2015-07-25 土>
+   研究日誌をつけることにした. そうしないと、データが比較できない.
+
+   グランビル + 手仕舞いに平行移動線利用.
+   
+   EURUSD_Ticks_24.07.2015-1H.csv 
+   Total Order Count: 20
+   Realized P&L     : 0.87
+   Profit Factor    : 3.07143
+
+   手仕舞いロジックがうまく動作していない.
+
+   平行移動線の傾きが逆転する場所で取引するロジックをつくる.
+
+   EURUSD_Ticks_24.07.2015-1H.csv 
+   Total Order Count: 20
+   Realized P&L     : 0.57
+   Profit Factor    : 2.67647
+
+   self.mean_for_ols_period = 20
+   self.ols_period = 40
+
+   まずまず.
+
+   self.mean_for_ols_period = 40
+   self.ols_period = 40
+
+   Total Order Count: 16
+   Realized P&L     : 0.27
+   Profit Factor    : 1.64286
+
+   self.mean_for_ols_period = 20
+   self.ols_period = 20
+
+   Total Order Count: 24
+   Realized P&L     : 0.59
+   Profit Factor    : 2.96667
+   
+   self.mean_for_ols_period = 10
+   self.ols_period = 20
+
+   Total Order Count: 32
+   Realized P&L     : 1.07
+   Profit Factor    : 4.68966
+
+   3Hで計測. 
+
+   self.mean_for_ols_period = 10
+   self.ols_period = 20
+
+   Total Order Count: 139
+   Realized P&L     : 2.56
+   Profit Factor    : 2.86861
+
+   self.mean_for_ols_period = 20
+   self.ols_period = 20
+
+   Total Order Count: 101
+   Realized P&L     : 2.42
+   Profit Factor    : 2.98361
+
+   グランビルよりもいいんじゃないか？？ 再テスト.
+   ものすごくグランビルパフォーマンス悪い.
+
+   Total Order Count: 25
+   Realized P&L     : 0.49
+   Profit Factor    : 2.19512
+
+   Total Order Count: 37
+   Realized P&L     : 0.5
+   Profit Factor    : 1.73529
+
+   SMAも試す. 
+   -> いい数値でた.. 20,40
+
+   Total Order Count: 55
+   Realized P&L     : 2.2
+   Profit Factor    : 4.4375
+
+   sma_ols 仕掛けを sma, 手仕舞い ols & sma
+   -> High Score更新
+
+   Total Order Count: 142
+   Realized P&L     : 3.19
+   Profit Factor    : 2.69681
+
+   手仕舞い論理を olsのみ
+
+   Total Order Count: 94
+   Realized P&L     : 3.02
+   Profit Factor    : 3.90385
+
+   一日の全tickに適用した結果. かなりすごい. 
+   お金持ちになれる気がしてきた.
+
+   Total Order Count: 1332
+   Realized P&L     : 15.27
+   Profit Factor    : 1.47719
+
+   次の目標は、レンジで無駄な取引をさける.

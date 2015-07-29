@@ -69,11 +69,13 @@ def plot_data():
     # plt.plot(strategy.sma_ols_ts.index, strategy.sma_ols_ts)
 
     if not len(timeseries.buys) == 0:
-        plt.plot(timeseries.buys.index, timeseries.buys, "g^")
+        plt.plot(timeseries.buys.index, timeseries.buys, "g^", markersize=8)
     if not len(timeseries.sells) == 0:
-        plt.plot(timeseries.sells.index, timeseries.sells, "rv")
-    if not len(timeseries.closes) == 0:
-        plt.plot(timeseries.closes.index, timeseries.closes, "yo")
+        plt.plot(timeseries.sells.index, timeseries.sells, "rv", markersize=8)
+    if not len(timeseries.close_wins) == 0:
+        plt.plot(timeseries.close_wins.index, timeseries.close_wins, "yo", markersize=8)
+    if not len(timeseries.close_loses) == 0:
+        plt.plot(timeseries.close_loses.index, timeseries.close_loses, "mo", markersize=8)
 
     portfolio.rpnl.plot()
 
@@ -93,13 +95,13 @@ if __name__ == "__main__":
 
     timeseries = TimeSeries(status)
 
-    strategy = SMAPIP(status)
+#    strategy = SMAPIP(status)
 #    strategy = SMAOLSPIP(status)
 #    strategy = SMABOL(status)
 #    strategy = SMARSIOLS(status)
 #    strategy = SMARSI(status)
 #    strategy = WMA(status)
-#    strategy = SMAOLS(status)
+    strategy = SMAOLS(status)
 #    strategy = SMA2(status)
 #    strategy = RSI(status)
 #
@@ -114,8 +116,8 @@ if __name__ == "__main__":
 
     #    event_src = MetatraderCSVPriceHandler("EUR_USD", events)
     event_src = DukascopyCSVPriceHandler("EUR_USD", events,
-                                         "data/EURUSD_Ticks_24.07.2015-3H-3.csv")
-#                                         "data/EURUSD_Ticks_28.07.2015-3H.csv")
+#                                         "data/EURUSD_Ticks_24.07.2015-3H-3.csv")
+                                         "data/EURUSD_Ticks_28.07.2015-3H-2.csv")
 #                                         "data/EURUSD_Ticks_24.07.2015-24.07.2015.csv")
 
     event_src.stream_to_queue()

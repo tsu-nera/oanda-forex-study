@@ -10,7 +10,8 @@ class TimeSeries():
         self.prices = pd.DataFrame()
         self.buys = pd.DataFrame()
         self.sells = pd.DataFrame()
-        self.closes = pd.DataFrame()        
+        self.close_wins = pd.DataFrame()
+        self.close_loses = pd.DataFrame()
         self.status = status
 
         self.resampled_prices = None
@@ -34,8 +35,11 @@ class TimeSeries():
     def add_sell_event(self, event):
         self.sells.loc[event.time, event.instrument] = event.bid
 
-    def add_close_event(self, event):
-        self.closes.loc[event.time, event.instrument] = event.bid
+    def add_close_win_event(self, event):
+        self.close_wins.loc[event.time, event.instrument] = event.bid
+
+    def add_close_lose_event(self, event):
+        self.close_loses.loc[event.time, event.instrument] = event.bid
 
     def get_latest_ts_as_df(self, period):
         return self.resampled_prices.tail(period)

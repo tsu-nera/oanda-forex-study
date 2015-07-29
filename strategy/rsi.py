@@ -1,18 +1,17 @@
 from strategy.strategy import Strategy
-import pandas as pd
-
-# import numpy as np
-# import talib
 
 
 class RSI(Strategy):
     def __init__(self, status):
         Strategy.__init__(self, status)
 
-        self.beta = 50
+        self.rsi = 50
         self.rsi_period = 40
 
     def calc_indicator(self, timeseries, event):
+        self.calc_rsi(timeseries, event)
+
+    def calc_rsi(self, timeseries, event):
         delta = timeseries.get_latest_ts_as_df(
             self.rsi_period).diff()
 
@@ -27,16 +26,16 @@ class RSI(Strategy):
         rol_down = diff_down.mean().abs()[0]
 
         rs = rol_up / rol_down
-        self.beta = 100.0 - (100.0 / (1.0 + rs))
+        self.rsi = 100.0 - (100.0 / (1.0 + rs))
 
     def buy_condition(self):
-        return self.beta > 70
+        return self.rsi > 70
 
     def close_buy_condition(self):
-        return self.beta < 30
+        return self.rsi < 30
 
     def sell_condition(self):
-        return self.beta < 30
+        return self.rsi < 30
 
     def close_sell_condition(self):
-        return self.beta > 70
+        return self.rsi > 70
