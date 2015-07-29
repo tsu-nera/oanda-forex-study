@@ -10,6 +10,7 @@ from progressbar import ProgressBar
 from timeseries import TimeSeries
 from manager import Manager
 
+from strategy.sma_ols_pip import SMAOLSPIP
 from strategy.sma_bol_pip import SMABOLPIP
 from strategy.sma_pip import SMAPIP
 from strategy.sma_bol import SMABOL
@@ -92,13 +93,13 @@ if __name__ == "__main__":
 
     timeseries = TimeSeries(status)
 
-#    strategy = SMAPIP(status)
-#    strategy = SMAPIP(status)
+    strategy = SMAPIP(status)
+#    strategy = SMAOLSPIP(status)
 #    strategy = SMABOL(status)
 #    strategy = SMARSIOLS(status)
 #    strategy = SMARSI(status)
 #    strategy = WMA(status)
-    strategy = SMAOLS(status)
+#    strategy = SMAOLS(status)
 #    strategy = SMA2(status)
 #    strategy = RSI(status)
 #
@@ -113,7 +114,8 @@ if __name__ == "__main__":
 
     #    event_src = MetatraderCSVPriceHandler("EUR_USD", events)
     event_src = DukascopyCSVPriceHandler("EUR_USD", events,
-                                         "data/EURUSD_Ticks_28.07.2015-3H.csv")
+                                         "data/EURUSD_Ticks_24.07.2015-3H-3.csv")
+#                                         "data/EURUSD_Ticks_28.07.2015-3H.csv")
 #                                         "data/EURUSD_Ticks_24.07.2015-24.07.2015.csv")
 
     event_src.stream_to_queue()
