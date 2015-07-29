@@ -8,8 +8,8 @@ class SMA(Strategy):
 
         self.sma = 0
         self.sma_pre = 0
-        self.mean_period_short = 20
-        self.mean_period_long = 40
+        self.mean_period_short = 25
+        self.mean_period_long = 75
         self.sma_mean_short = 0
         self.sma_mean_long = 0
         self.sma_short_ts = pd.DataFrame()
@@ -17,8 +17,6 @@ class SMA(Strategy):
 
     def calc_indicator(self, timeseries, event):
         self.calc_sma(timeseries, event)
-
-        self.print_data()
 
     def calc_sma(self, timeseries, event):
         self.sma_mean_short_pre = self.sma_mean_short

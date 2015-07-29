@@ -13,7 +13,9 @@ class SMAPIP(SMA):
     def calc_indicator(self, timeseries, event):
         self.calc_sma(timeseries, event)
         self.calc_pip_over_closs(timeseries, event)
+        self.clac_pip_mean(timeseries, event)
 
+    def calc_pip_mean(self, timeseries, event):
         self.pip_mean \
             = timeseries.get_latest_ts_as_df(self.pip_mean_period).mean()[0]
 
@@ -66,16 +68,12 @@ class SMAPIP(SMA):
         return self.sma_buy_condition()
 
     def close_buy_condition(self, event):
-        return self.pip_over_cross_condiiton(event)
-#        return self.pip_close_condition(event) \
- #           or self.pip_over_cross_condiiton(event)
-#        return self.pip_expand_close_condition(event)
+        return self.pip_expand_close_condition(event) \
+            or self.pip_over_cross_condiiton(event)
 
     def sell_condition(self):
         return self.sma_sell_condition()
 
     def close_sell_condition(self, event):
-        return self.pip_over_cross_condiiton(event)
-#        return self.pip_close_condition(event) \
-#            or self.pip_over_cross_condiiton(event)
-#        return self.pip_expand_close_condition(event)
+        return self.pip_expand_close_condition(event) \
+            or self.pip_over_cross_condiiton(event)

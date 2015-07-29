@@ -92,13 +92,13 @@ if __name__ == "__main__":
 
     timeseries = TimeSeries(status)
 
-    strategy = SMAPIP(status)
+#    strategy = SMAPIP(status)
 #    strategy = SMAPIP(status)
 #    strategy = SMABOL(status)
 #    strategy = SMARSIOLS(status)
 #    strategy = SMARSI(status)
 #    strategy = WMA(status)
-#    strategy = SMAOLS(status)
+    strategy = SMAOLS(status)
 #    strategy = SMA2(status)
 #    strategy = RSI(status)
 #
