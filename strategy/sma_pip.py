@@ -1,8 +1,9 @@
 from strategy.sma import SMA
 from strategy.pip import PIP
+from strategy.time import Time
 
 
-class SMAPIP(SMA, PIP):
+class SMAPIP(SMA, PIP, Time):
     def __init__(self, status):
         SMA.__init__(self, status)
         PIP.__init__(self, status)
@@ -19,13 +20,15 @@ class SMAPIP(SMA, PIP):
         return self.pip_expand_close_condition(event) \
             or self.pip_over_cross_condiiton(event) \
             or self.pip_loss_cut_condition(event) \
-            or self.pip_return_condition(event)
+            or self.pip_return_condition(event) \
+            and not self.time_guard_condition(event)
 
     def sell_condition(self):
         return self.sma_sell_condition()
-
+    
     def close_sell_condition(self, event):
         return self.pip_expand_close_condition(event) \
             or self.pip_over_cross_condiiton(event) \
             or self.pip_loss_cut_condition(event) \
-            or self.pip_return_condition(event)
+            or self.pip_return_condition(event) \
+            and not self.time_guard_condition(event)
