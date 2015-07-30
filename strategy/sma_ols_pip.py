@@ -22,7 +22,7 @@ class SMAOLSPIP(SMA, OLS, PIP):
         return self.sma_buy_condition() and self.b > 0
 
     def close_buy_condition(self, event):
-        return self.pip_expand_close_condition(event) \
+        return self.pip_close_condition(event) \
             or self.pip_over_cross_condiiton(event) \
             or self.pip_loss_cut_condition(event) \
             or self.ols_close_buy_condition(event)
@@ -31,7 +31,7 @@ class SMAOLSPIP(SMA, OLS, PIP):
         return self.sma_sell_condition() and self.b < 0
 
     def close_sell_condition(self, event):
-        return self.pip_expand_close_condition(event) \
+        return self.pip_close_condition(event) \
             or self.pip_over_cross_condiiton(event) \
             or self.pip_loss_cut_condition(event) \
             or self.ols_close_sell_condition(event)

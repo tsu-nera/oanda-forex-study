@@ -1,4 +1,5 @@
 * <2015-07-30 木>
+
   7/28-3 sma pip 3分間はclose抑止を入れてみたら悪化.
   Total Order Count: 47
   Realized P&L     : -2.08
@@ -104,7 +105,40 @@
    Total Order Count: 20
    Realized P&L     : -0.0
    win and lose     : 6 / 4
+
+** 7/24 3H sma ols pip
+   これを改善することにする. 
+   ロスカット論理がうまく動作しない原因を考える.
    
+#+begin_src text
+   Total Order Count: 27
+   Realized P&L     : -0.46
+   win and lose     : 5 / 8
+#+end_src
+
+**  7/24 3H sma ols pip
+   ロスカットを0.002にしたらプラスに転じた.
+
+#+begin_src text
+   Total Order Count: 27
+   Realized P&L     : 0.08
+   win and lose     : 5 / 8
+#+end_src
+
+   losscutがうまく動いていない原因判明.
+   平均を比べていたので.
+
+**  7/28 3H-3 sma ols pip
+
+#+begin_src text
+   Total Order Count: 49
+   Realized P&L     : -0.46
+   win and lose     : 9 / 15
+#+end_src
+
+   ロスカット 0.0025で.
+
+
 * <2015-07-29 水>
   取引結果と、平行移動線があわない. 
   調査方法が分からないが、保留にしたくないな。どうしようか.

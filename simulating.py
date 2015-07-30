@@ -95,8 +95,8 @@ if __name__ == "__main__":
 
     timeseries = TimeSeries(status)
 
-#    strategy = SMAPIP(status)
-    strategy = SMAOLSPIP(status)
+    strategy = SMAPIP(status)
+#    strategy = SMAOLSPIP(status)
 #    strategy = SMABOL(status)
 #    strategy = SMARSIOLS(status)
 #    strategy = SMARSI(status)
@@ -116,8 +116,8 @@ if __name__ == "__main__":
 
     #    event_src = MetatraderCSVPriceHandler("EUR_USD", events)
     event_src = DukascopyCSVPriceHandler("EUR_USD", events,
-#                                         "data/EURUSD_Ticks_24.07.2015-3H-3.csv")
-                                         "data/EURUSD_Ticks_28.07.2015-3H.csv")
+#                                         "data/EURUSD_Ticks_24.07.2015-3H.csv")
+                                         "data/EURUSD_Ticks_28.07.2015-3H-3.csv")
 #                                         "data/EURUSD_Ticks_29.07.2015-4H.csv")
 #                                         "data/EURUSD_Ticks_24.07.2015-24.07.2015.csv")
 

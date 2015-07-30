@@ -28,17 +28,17 @@ def on_tick(events, manager):
         time.sleep(heartbeat)
 
 if __name__ == "__main__":
-    events = queue.Queue()  # 同期キュー
+    events = queue.Queue()
 
     price_src = StreamingForexPrices(environment=DOMAIN,
                                      access_token=ACCESS_TOKEN)
 
-    status = dict()  # tick をまたいで記憶しておきたい情報
+    status = dict() 
     status["is_sim"] = False
 
-    portfolio = PortfolioRemote(status)  # お金管理
+    portfolio = PortfolioRemote(status)
 
-    execution = OANDAExecutionHandler(status)  # 売買注文
+    execution = OANDAExecutionHandler(status)
 
     strategy = SMAPIP(status)
 

@@ -9,11 +9,13 @@ class PIP(Strategy):
         self.pip_mean_period = 25
         self.pip_mean = 0
         self.pip_mean_pre = 0
+        self.pip_losscut_price = 0.00025
 
     def calc_pip_mean(self, timeseries, event):
         self.pip_mean_pre = self.pip_mean
-        self.pip_mean \
-            = timeseries.get_latest_ts_as_df(self.pip_mean_period).mean()[0]
+        self.pip_mean = event.bid
+        # self.pip_mean \
+        #     = timeseries.get_latest_ts_as_df(self.pip_mean_period).mean()[0]
 
         # 利益確定条件を動的に伸ばす
         if not self.status["open_position"]:
@@ -31,48 +33,39 @@ class PIP(Strategy):
     def pip_over_cross_condiiton(self, event):
         return self.pip_closs_count >= 3
 
-    def pip_close_condition(self, event):
-        return abs(self.status["opening_price"] - self.pip_mean) \
-            > self.pip_diff
+    def calc_pip_pnl(self):
+        if self.status["position"] > 0:
+            return self.pip_mean - self.status["opening_price"]
+        else:
+            return self.status["opening_price"] - self.pip_mean
 
     def pip_loss_cut_condition(self, event):
         # 損切りラインは 3pipにする.
         if abs(self.status["opening_price"] - self.pip_mean) \
-           > 0.0003:
-            if self.status["position"] > 0:
-                # 買いかつ損切り
-                if (self.pip_mean - self.status["opening_price"] < 0):
-                    return True
+           > self.pip_losscut_price:
+            if self.calc_pip_pnl() < 0:
+                return True
             else:
-                # 売りかつ損切り
-                if (self.status["opening_price"] - self.pip_mean < 0):
-                    return True
+                return False
         else:
             return False
 
+    def pip_close_condition(self, event):
+        return self.calc_pip_pnl() > self.pip_diff
+
     def pip_expand_close_condition(self, event):
         if self.pip_diff > 0.0005 \
-           and abs(self.status["opening_price"] - self.pip_mean) \
-           < self.pip_diff - 0.00015:
+           and self.calc_pip_pnl() < self.pip_diff - 0.00015:
             return True
 
         # 利確の場合は動的にリミットを広げていく.
         if abs(self.status["opening_price"] - self.pip_mean) \
            > self.pip_diff:
-            if self.status["position"] > 0:
-                # 売りかつ利確の場合
-                if (self.pip_mean - self.status["opening_price"] > 0):
-                    self.pip_diff += 0.0001
-                    return False
-                else:
-                    return True
+            if self.calc_pip_pnl() > 0:
+                self.pip_diff += 0.0001
+                return False
             else:
-                # 買いかつ利確の場合
-                if (self.status["opening_price"] - self.pip_mean > 0):
-                    self.pip_diff += 0.0001
-                    return False
-                else:
-                    return True
+                return True
         else:
             return False
 
