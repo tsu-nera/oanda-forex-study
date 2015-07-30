@@ -45,6 +45,7 @@ class Portfolio():
                 self.rpnl.loc[event.time, "rpnl"] = self.status["realized_pnl"]
         else:
             self.status["opening_price"] = self.status["executed_price"]
+            self.status["opening_time"] = event.time
             self.status["open_position"] = True
 
     def calculate_realized_pnl(self, event):

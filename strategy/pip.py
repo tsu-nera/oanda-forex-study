@@ -75,6 +75,8 @@ class PIP(Strategy):
             return False
 
     def pip_return_condition(self, event):
+        if (event.time-self.status["opening_time"]).total_seconds() < 180:
+            return False
         if self.pip_mean_pre == 0:
             return False
         if self.pip_mean_pre > self.status["opening_price"] \
