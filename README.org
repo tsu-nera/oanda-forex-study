@@ -39,6 +39,13 @@ pip3 install requests
 pip3 install progressbar2
 #+end_src
 
+*** statsmodelsのためのインストール
+
+#+begin_src bash
+sudo yum install numpy scipy python-matplotlib ipython python-pandas sympy python-nose
+yum install atlas-sse3-devel gcc-gfortran
+#+end_src
+
 ** 環境変数の設定
    ...
 

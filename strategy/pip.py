@@ -9,12 +9,13 @@ class PIP(Strategy):
         self.pip_mean_period = 25
         self.pip_mean = 0
         self.pip_mean_pre = 0
-        self.pip_losscut_price = 0.00025
+        self.pip_losscut_price = 0.0002
 
     def calc_pip_mean(self, timeseries, event):
         self.pip_mean_pre = self.pip_mean
-        self.pip_mean \
-            = timeseries.get_latest_ts_as_df(self.pip_mean_period).mean()[0]
+        self.pip_mean = event.bid
+        # self.pip_mean \
+        #     = timeseries.get_latest_ts_as_df(self.pip_mean_period).mean()[0]
 
         # 利益確定条件を動的に伸ばす
         if not self.status["open_position"]:
@@ -40,9 +41,10 @@ class PIP(Strategy):
 
     def pip_loss_cut_condition(self, event):
         # 損切りラインは 3pipにする.
-        if abs(self.status["opening_price"] - event.bid) \
+        if abs(self.status["opening_price"] - self.pip_mean) \
            > self.pip_losscut_price:
             if self.calc_pip_pnl() < 0:
+
                 return True
             else:
                 return False
