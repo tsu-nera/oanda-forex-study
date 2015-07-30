@@ -1,3 +1,110 @@
+* <2015-07-30 木>
+  7/28-3 sma pip 3分間はclose抑止を入れてみたら悪化.
+  Total Order Count: 47
+  Realized P&L     : -2.08
+  win and lose     : 6 / 17
+
+  バックテストでは好成績をだすのに、本番でズタボロなのはなぜ..
+
+  -800円の損失.
+
+  7/29 4H 20-0まで.  sma pip
+
+  Total Order Count: 27
+  Realized P&L     : -0.46
+  win and lose     : 6 / 7
+
+  OANDAのデータと Dukascopyのデータが一致しない..
+
+  pipの平均を伸ばす. 3 -> 6
+
+  Total Order Count: 27
+  Realized P&L     : -0.49
+  win and lose     : 6 / 7
+
+  6->25 
+  プラスになった! これは採用していいのかしら.
+
+   Total Order Count: 24
+   Realized P&L     : 1.34
+   win and lose     : 7 / 5
+
+   7/28 3H-3 また改善した.
+
+   Total Order Count: 24
+   Realized P&L     : -0.04
+   win and lose     : 6 / 6
+
+   7/28 3H 下がったものの プラス
+   Total Order Count: 16
+   Realized P&L     : 0.22
+   win and lose     : 5 / 3
+
+   これもプラス7/28 3H-2 
+   損切り論理がほんとうに動いているのか疑問...
+   Total Order Count: 16
+   Realized P&L     : 0.07
+   win and lose     : 5 / 3
+
+   バグがあったように思える.
+
+   Total Order Count: 23
+   Realized P&L     : 0.22
+   win and lose     : 6 / 5
+
+   バグを直したら悪化した ... 7/28 3H-3
+
+   Total Order Count: 26
+   Realized P&L     : -1.14
+   win and lose     : 5 / 8
+
+   5分以上での ols closeコンディションを追加してみた.
+   7/28 3H-1 sma ols pip
+   Total Order Count: 19
+   Realized P&L     : 0.17
+   win and lose     : 5 / 4
+
+   狙いどおりの山のてっぺんで取引することができた. 改善
+   7/28 3H-1 sma ols pip
+   Total Order Count: 27
+   Realized P&L     : 0.45
+   win and lose     : 7 / 6
+
+   7/28 3H-22 やや悪化. sma pip ols
+
+   Total Order Count: 35
+   Realized P&L     : -0.29
+   win and lose     : 8 / 9
+
+   7/28 3H-2 sma pip ols b>0ロジックを外すとさらに悪化.
+   Total Order Count: 35
+   Realized P&L     : -0.7
+   win and lose     : 7 / 10
+
+   sma pip だとこの結果.
+   
+   Total Order Count: 23
+   Realized P&L     : 0.22
+   win and lose     : 6 / 5
+
+   山判定までの時間を10分にしたら、改善した.
+
+   Total Order Count: 25
+   Realized P&L     : 0.36
+   win and lose     : 7 / 5
+
+   3H-1 sma ols pip
+   エントリのタイミングが変わってしまい、点が下がる.
+   Total Order Count: 22
+   Realized P&L     : -0.22
+   win and lose     : 6 / 5
+
+   olsを外すとこうなった.
+
+   Total Order Count: 20
+   Realized P&L     : -0.0
+   win and lose     : 6 / 4
+   
 * <2015-07-29 水>
   取引結果と、平行移動線があわない. 
   調査方法が分からないが、保留にしたくないな。どうしようか.
@@ -111,6 +218,7 @@
   win and lose     : 11 / 3
 
   よし、いれよう!
+
 
 * <2015-07-28 火>
   pipで売却する戦略をとったら、かなりいい結果が出てきた.

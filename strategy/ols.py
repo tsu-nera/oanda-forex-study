@@ -34,11 +34,13 @@ class OLS(Strategy):
         self.pre_b = self.b
         self.a, self.b = results.params
 
-    def ols_close_buy_condition(self):
-        return self.pre_b >= 0 and self.b < 0
+    def ols_close_buy_condition(self, event):
+        return self.pre_b >= 0 and self.b < 0 \
+            and (event.time-self.status["opening_time"]).total_seconds() > 600
 
-    def ols_close_sell_condition(self):
-        return self.pre_b <= 0 and self.b > 0
+    def ols_close_sell_condition(self, event):
+        return self.pre_b <= 0 and self.b > 0 \
+            and (event.time-self.status["opening_time"]).total_seconds() > 600
 
     def cleanup_data(self):
         if len(self.sma_ols_ts) > self.ols_period:

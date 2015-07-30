@@ -18,13 +18,13 @@ class SMAOLS(SMA, OLS):
         return self.sma_buy_condition() and self.b > 0
 
     def close_buy_condition(self, event):
-        return self.ols_close_buy_condition()
+        return self.ols_close_buy_condition(event)
 
     def sell_condition(self):
         return self.sma_sell_condition() and self.b < 0
 
     def close_sell_condition(self, event):
-        return self.ols_close_sell_condition()
+        return self.ols_close_sell_condition(event)
 
     def cleanup_data(self):
         if len(self.sma_ols_ts) > self.ols_period:
