@@ -140,6 +140,35 @@
 
    実践でロスカットロンリがきかなくて7pipまで損失が広がった. 
    やっぱりどこか論理がおかしいのだろうか？？
+   -> おかしかった
+
+** 7/29 3H sma pip
+   坂道でのジグザグでかなり損失した. これをどうやって、改善するか..
+
+#+begin_src text
+Total Order Count: 30
+Realized P&L     : -0.68
+win and lose     : 4 / 11
+#+end_src
+
+** 7/29 3H sma
+   ものすごく悪い...
+
+#+begin_src text
+Total Order Count: 41
+Realized P&L     : -2.48
+win and lose     : 3 / 17
+#+end_src
+
+** 7/29 3H sma rsi
+
+#+begin_src text
+Total Order Count: 35
+Realized P&L     : -2.0
+win and lose     : 2 / 15
+#+end_src
+
+
 
 * <2015-07-29 水>
   取引結果と、平行移動線があわない. 

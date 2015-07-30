@@ -6,16 +6,16 @@ class PIP(Strategy):
         super(PIP, self).__init__(status)
 
         self.pip_diff = 0.0005
-        self.pip_mean_period = 25
+        self.pip_mean_period = 5
         self.pip_mean = 0
         self.pip_mean_pre = 0
-        self.pip_losscut_price = 0.0002
+        self.pip_losscut_price = 0.0003
 
     def calc_pip_mean(self, timeseries, event):
         self.pip_mean_pre = self.pip_mean
-        self.pip_mean = event.bid
-        # self.pip_mean \
-        #     = timeseries.get_latest_ts_as_df(self.pip_mean_period).mean()[0]
+#        self.pip_mean = event.bid
+        self.pip_mean \
+            = timeseries.get_latest_ts_as_df(self.pip_mean_period).mean()[0]
 
         # 利益確定条件を動的に伸ばす
         if not self.status["open_position"]:

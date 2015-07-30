@@ -40,6 +40,8 @@ pip3 install progressbar2
 #+end_src
 
 *** statsmodelsのためのインストール
+    scipyがメモリ枯渇でインストールできない..
+    - http://stackoverflow.com/questions/19595944/trouble-installing-scipy-in-virtualenv-on-a-amazon-ec2-linux-micro-instance
 
 #+begin_src bash
 sudo yum install numpy scipy python-matplotlib ipython python-pandas sympy python-nose

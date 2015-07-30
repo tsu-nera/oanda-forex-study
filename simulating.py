@@ -99,12 +99,11 @@ if __name__ == "__main__":
 #    strategy = SMAOLSPIP(status)
 #    strategy = SMABOL(status)
 #    strategy = SMARSIOLS(status)
-#    strategy = SMARSI(status)
 #    strategy = WMA(status)
 #    strategy = SMAOLS(status)
-#    strategy = SMA2(status)
+#    strategy = SMA(status)
 #    strategy = RSI(status)
-#
+#    strategy = SMARSI(status)
 #    strategy = Granville(status)
 #    strategy = Momentum(status)
 #    strategy = BolingerBand(status)
@@ -117,8 +116,8 @@ if __name__ == "__main__":
     #    event_src = MetatraderCSVPriceHandler("EUR_USD", events)
     event_src = DukascopyCSVPriceHandler("EUR_USD", events,
 #                                         "data/EURUSD_Ticks_24.07.2015-3H.csv")
-                                         "data/EURUSD_Ticks_28.07.2015-3H-3.csv")
-#                                         "data/EURUSD_Ticks_29.07.2015-4H.csv")
+#                                         "data/EURUSD_Ticks_28.07.2015-3H-3.csv")
+                                         "data/EURUSD_Ticks_29.07.2015-3H.csv")
 #                                         "data/EURUSD_Ticks_24.07.2015-24.07.2015.csv")
 
     event_src.stream_to_queue()

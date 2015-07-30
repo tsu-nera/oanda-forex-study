@@ -28,14 +28,20 @@ class RSI(Strategy):
         rs = rol_up / rol_down
         self.rsi = 100.0 - (100.0 / (1.0 + rs))
 
+    def is_range(self):
+        return self.rsi > 45 and self.rsi < 55
+
+    def is_up(self):
+        return True if self.rsi > 50 else False
+
     def buy_condition(self):
         return self.rsi > 70
 
-    def close_buy_condition(self):
+    def close_buy_condition(self, event):
         return self.rsi < 30
 
     def sell_condition(self):
         return self.rsi < 30
 
-    def close_sell_condition(self):
+    def close_sell_condition(self, event):
         return self.rsi > 70
