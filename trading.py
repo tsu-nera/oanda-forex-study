@@ -11,7 +11,7 @@ from manager import Manager
 
 from strategy.sma import SMA
 from strategy.sma_pip import SMAPIP
-from strategy.sma_pip import SMAOLSPIP
+from strategy.sma_ols_pip import SMAOLSPIP
 
 heartbeat = 0.5
 
