@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     execution = OANDAExecutionHandler(status)
 
-    strategy = SMAOLSPIP(status)
+    strategy = SMAPIP(status)
 
     timeseries = TimeSeries(status)
 
