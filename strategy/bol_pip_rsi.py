@@ -19,16 +19,18 @@ class BOLPIPRSI(PIP, Time, BOL, RSI):
         self.calc_bol(timeseries, event)
         self.calc_rsi(timeseries, event)        
 
-    def buy_condition(self):
-        return  (self.bol_buy_condition() and self.rsi > 60)
+    def buy_condition(self, event):
+        return  (self.bol_buy_condition() and self.rsi > 60) \
+            and not self.time_close_guard_condition(event)
 
     def close_buy_condition(self, event):
         return self.pip_expand_close_condition(event) \
             or self.pip_loss_cut_condition(event) \
             and not self.time_guard_condition(event)
 
-    def sell_condition(self):
-        return (self.bol_sell_condition() and self.rsi < 40)
+    def sell_condition(self, event):
+        return (self.bol_sell_condition() and self.rsi < 40) \
+            and not self.time_close_guard_condition(event)
     
     def close_sell_condition(self, event):
         return self.pip_expand_close_condition(event) \

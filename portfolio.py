@@ -40,6 +40,7 @@ class Portfolio():
 
         if self.status["position"] == 0:
             self.status["open_position"] = False
+            self.status["close_time"] = event.time
             self.calculate_realized_pnl(event)
             if self.status["is_sim"]:
                 self.rpnl.loc[event.time, "rpnl"] = self.status["realized_pnl"]

@@ -8,5 +8,11 @@ class Time(Strategy):
         self.guard_time = 30
         
     def time_guard_condition(self, event):
-        return (self.status["opening_time"] - event.time).total_seconds() \
+        return (event.time - self.status["opening_time"]).total_seconds() \
+            < self.guard_time
+
+    def time_close_guard_condition(self, event):
+        if self.status["close_time"] == 0:
+            return False
+        return (event.time - self.status["close_time"]).total_seconds() \
             < self.guard_time

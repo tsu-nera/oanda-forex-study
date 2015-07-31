@@ -9,6 +9,7 @@ class Manager():
         self.portfolio = portfolio
         self.ts = timeseries
         self.strategy = strategy
+        self.status["close_time"] = 0
 
     def perform_trade(self, event):
         # 時系列データに追加
@@ -22,10 +23,10 @@ class Manager():
 
     def check_condition(self, event, strategy):
         if not self.status["open_position"]:
-            if strategy.buy_condition():
+            if strategy.buy_condition(event):
                 self.order_and_calc_portfolio(event, True, False)
 
-            elif strategy.sell_condition():
+            elif strategy.sell_condition(event):
                 self.order_and_calc_portfolio(event, False, False)
 
         else:

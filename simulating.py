@@ -98,8 +98,8 @@ if __name__ == "__main__":
 
     timeseries = TimeSeries(status)
 
-#    strategy = BOLPIPRSI(status)
-    strategy = SMABOLPIPRSI(status)
+    strategy = BOLPIPRSI(status)
+#    strategy = SMABOLPIPRSI(status)
 #    strategy = SMABOLPIP(status)    
 #    strategy = SMAPIP(status)
 #    strategy = SMAPIPRSI(status)
