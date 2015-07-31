@@ -31,7 +31,7 @@ class RSI(Strategy):
     def is_range(self):
         return self.rsi > 45 and self.rsi < 55
 
-    def is_up(self):
+    def rsi_is_up(self):
         return True if self.rsi > 50 else False
 
     def buy_condition(self):
