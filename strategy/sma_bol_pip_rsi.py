@@ -20,7 +20,7 @@ class SMABOLPIPRSI(SMA, PIP, Time, BOL, RSI):
         self.calc_bol(timeseries, event)
         self.calc_rsi(timeseries, event)        
 
-    def buy_condition(self):
+    def buy_condition(self, event):
         return (self.sma_buy_condition() and self.rsi_is_up()) \
             or (self.bol_buy_condition() and self.rsi > 60)
 
@@ -30,7 +30,7 @@ class SMABOLPIPRSI(SMA, PIP, Time, BOL, RSI):
             or self.pip_over_cross_condiiton(event) \
             and not self.time_guard_condition(event) 
 
-    def sell_condition(self):
+    def sell_condition(self, event):
         return (self.sma_sell_condition() and not self.rsi_is_up()) \
             or (self.bol_sell_condition() and self.rsi < 40)
     
