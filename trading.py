@@ -11,7 +11,7 @@ from manager import Manager
 
 from strategy.sma import SMA
 from strategy.sma_pip import SMAPIP
-from strategy.sma_pip_rsi import SMAPIPRSI
+from strategy.bol_pip_rsi import BOLPIPRSI
 
 heartbeat = 0.5
 
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     execution = OANDAExecutionHandler(status)
 
-    strategy = SMAPIPRSI(status)
+    strategy = BOLPIPRSI(status)
 
     timeseries = TimeSeries(status)
 

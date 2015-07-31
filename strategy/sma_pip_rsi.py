@@ -23,8 +23,8 @@ class SMAPIPRSI(SMA, PIP, Time, RSI):
 
     def close_buy_condition(self, event):
         return self.pip_expand_close_condition(event) \
-            or self.pip_over_cross_condiiton(event) \
             or self.pip_loss_cut_condition(event) \
+            or self.sma_buy_condition() \
             and not self.time_guard_condition(event)
 
     def sell_condition(self):
