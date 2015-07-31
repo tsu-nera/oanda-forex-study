@@ -22,7 +22,8 @@ class SMABOLPIPRSI(SMA, PIP, Time, BOL, RSI):
 
     def buy_condition(self, event):
         return (self.sma_buy_condition() and self.rsi_is_up()) \
-            or (self.bol_buy_condition() and self.rsi > 60)
+            or (self.bol_buy_condition() and self.rsi > 60) \
+            and not self.time_close_guard_condition(event)
 
     def close_buy_condition(self, event):
         return self.pip_expand_close_condition(event) \
@@ -32,7 +33,8 @@ class SMABOLPIPRSI(SMA, PIP, Time, BOL, RSI):
 
     def sell_condition(self, event):
         return (self.sma_sell_condition() and not self.rsi_is_up()) \
-            or (self.bol_sell_condition() and self.rsi < 40)
+            or (self.bol_sell_condition() and self.rsi < 40) \
+            and not self.time_close_guard_condition(event)
     
     def close_sell_condition(self, event):
         return self.pip_expand_close_condition(event) \
