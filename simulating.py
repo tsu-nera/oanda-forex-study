@@ -28,6 +28,7 @@ from strategy.ema import EMA
 from strategy.wma import WMA
 from strategy.momentum import Momentum
 from strategy.bolingerband import BolingerBand
+from strategy.martin_rsi import MARTINRSI
 
 def simulating(events, manager):
     progress = ProgressBar(events.qsize()).start()
@@ -67,8 +68,8 @@ def show_result():
 def plot_data():
     plt.plot(timeseries.prices.index, timeseries.prices)
 
-    plt.plot(strategy.sma_long_ts.index, strategy.sma_long_ts)
-    plt.plot(strategy.sma_short_ts.index, strategy.sma_short_ts)
+    # plt.plot(strategy.sma_long_ts.index, strategy.sma_long_ts)
+    # plt.plot(strategy.sma_short_ts.index, strategy.sma_short_ts)
     # plt.plot(strategy.sma_ols_ts.index, strategy.sma_ols_ts)
 
     if not len(timeseries.buys) == 0:
@@ -98,7 +99,7 @@ if __name__ == "__main__":
 
     timeseries = TimeSeries(status)
 
-    strategy = BOLPIPRSI(status)
+    strategy = MARTINRSI(status)
 #    strategy = SMABOLPIPRSI(status)
 #    strategy = SMABOLPIP(status)    
 #    strategy = SMAPIP(status)
@@ -122,9 +123,9 @@ if __name__ == "__main__":
 
     #    event_src = MetatraderCSVPriceHandler("EUR_USD", events)
     event_src = DukascopyCSVPriceHandler("EUR_USD", events,
-                                         "data/EURUSD_Ticks_24.07.2015-3H.csv")
+#                                         "data/EURUSD_Ticks_24.07.2015-3H.csv")
 #                                         "data/EURUSD_Ticks_28.07.2015-3H-2.csv")
-#                                         "data/EURUSD_Ticks_29.07.2015-4H.csv")
+                                         "data/EURUSD_Ticks_29.07.2015-4H.csv")
 
     event_src.stream_to_queue()
 

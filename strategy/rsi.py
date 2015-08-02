@@ -34,14 +34,20 @@ class RSI(Strategy):
     def rsi_is_up(self):
         return True if self.rsi > 50 else False
 
-    def buy_condition(self):
+    def rsi_buy_condition(self):
         return self.rsi > 70
+
+    def rsi_sell_condition(self):
+        return self.rsi < 30
+
+    def buy_condition(self):
+        return self.rsi_buy_condition()
 
     def close_buy_condition(self, event):
-        return self.rsi < 30
+        return self.rsi_sell_condition()
 
     def sell_condition(self):
-        return self.rsi < 30
+        return self.rsi_sell_condition()        
 
     def close_sell_condition(self, event):
-        return self.rsi > 70
+        return self.rsi_buy_condition()

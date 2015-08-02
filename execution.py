@@ -16,6 +16,7 @@ class ExecutionHandler(object):
 class SimulatedExecutionHandler(ExecutionHandler):
     def __init__(self, status):
         self.status = status
+        self.status["units"] = 1000
 
     def execute_order(self, event):
         self.status["executed_price"] = float(event.price)
@@ -26,12 +27,13 @@ class OANDAExecutionHandler(ExecutionHandler):
     def __init__(self, status):
         self.oanda = oandapy.API(DOMAIN, ACCESS_TOKEN)
         self.status = status
+        self.status["units"] = 1000
 
     def execute_order(self, event):
         response = self.oanda.create_order(
             account_id=ACCOUNT_ID,
             instrument=event.instrument,
-            units=1000,
+            units=self.status["units"],
             side=event.side,
             type='market')
 
