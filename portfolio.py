@@ -34,13 +34,10 @@ class Portfolio():
 
         if event.side == "buy":
             self.status["position"] += self.status["units"]
-            print("buy")
         else:
             self.status["position"] -= self.status["units"]
-            print("sell")
 
         if self.status["position"] == 0:
-            print("closed...")
             self.status["open_position"] = False
             self.status["close_time"] = event.time
             self.calculate_realized_pnl(event)
@@ -83,6 +80,7 @@ class Portfolio():
 class PortfolioRemote(Portfolio):
     def show_current_status(self, event):
         self.calculate_unrealized_pnl(event)
+        self.calculate_unrealized_pip(event)
         self.print_status(event)
 
     def calculate_unrealized_pnl(self, event):
@@ -101,13 +99,25 @@ class PortfolioRemote(Portfolio):
         else:
             self.status["unrealized_pnl"] = 0
 
+    def calculate_unrealized_pip(self, event):
+        if self.status["open_position"]:
+            if self.status["position"] > 0:
+                self.status["unrealized_pip"] \
+                    = (event.bid - self.status["opening_price"]) * 10000
+            else:
+                self.status["unrealized_pip"] \
+                    = (self.status["opening_price"] - event.bid) * 10000
+        else:
+            self.status["unrealized_pip"] = 0
+
     def print_status(self, event):
-        print("[%s] %s pos=%s RPnL=%s UPnL=%s" % (
+        print("[%s] %s pos=%s RPnL=%s UPnL=%s UPip=%s" % (
             datetime.now().time(),
             event.instrument,
             self.status["position"],
             round(self.status["realized_pnl"], 5),
-            round(self.status["unrealized_pnl"], 5)))
+            round(self.status["unrealized_pnl"], 5),
+            round(self.status["unrealized_pip"], 2)))
 
 
 class PortfolioLocal(Portfolio):

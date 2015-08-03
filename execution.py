@@ -42,7 +42,7 @@ class OANDAExecutionHandler(ExecutionHandler):
             self.status["executed_price"] = float(response["price"])
 
             print("Placed order %s %s %s at market." %
-                  (event.side, 1000, event.instrument))
+                  (event.side, self.status["units"], event.instrument))
             return True  # Order is successful
 
         return False  # Order is unsuccessful
