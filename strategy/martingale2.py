@@ -6,8 +6,7 @@ class MARTIN2(Strategy):
         super(MARTIN2, self).__init__(status)
         self.martin_diff = 0.0003
         
-        self.martin_init_price = 1000
-        self.martin_limit_price = 32000
+        self.martin_init_price = 10000
 
         self.martin_price = self.martin_init_price
         self.status["units"] =  self.martin_init_price
