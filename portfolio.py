@@ -103,10 +103,12 @@ class PortfolioRemote(Portfolio):
         if self.status["open_position"]:
             if self.status["position"] > 0:
                 self.status["unrealized_pip"] \
-                    = (event.bid - self.status["opening_price"]) * 10000
+                    = (event.bid - self.status["opening_price"]
+                       - self.spread) * 10000
             else:
                 self.status["unrealized_pip"] \
-                    = (self.status["opening_price"] - event.bid) * 10000
+                    = (self.status["opening_price"] - event.bid
+                       - self.spread) * 10000
         else:
             self.status["unrealized_pip"] = 0
 
@@ -117,7 +119,8 @@ class PortfolioRemote(Portfolio):
             self.status["position"],
             round(self.status["realized_pnl"], 5),
             round(self.status["unrealized_pnl"], 5),
-            round(self.status["unrealized_pip"], 2)))
+            round(self.status["unrealized_pip"], 2)
+        ))
 
 
 class PortfolioLocal(Portfolio):

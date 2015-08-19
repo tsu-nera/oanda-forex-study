@@ -8,6 +8,8 @@ class MARTIN2RSI(MARTIN2, RSI, Time):
         RSI.__init__(self, status)
         Time.__init__(self, status)
 
+        
+
     def calc_indicator(self, timeseries, event):
         self.calc_rsi(timeseries, event)
         self.calc_martin(timeseries, event)

@@ -5,8 +5,9 @@ class MARTIN2(Strategy):
     def __init__(self, status):
         super(MARTIN2, self).__init__(status)
         self.martin_diff = 0.0003
+        self.spread = 0.00005
         
-        self.martin_init_price = 10000
+        self.martin_init_price = 1000
 
         self.martin_price = self.martin_init_price
         self.status["units"] =  self.martin_init_price
@@ -16,9 +17,9 @@ class MARTIN2(Strategy):
         
     def calc_pnl(self, event):
         if self.status["position"] > 0:
-            return event.bid - self.status["opening_price"]
+            return event.bid - self.status["opening_price"] - self.spread
         else:
-            return self.status["opening_price"] - event.bid
+            return self.status["opening_price"] - event.bid - self.spread
 
     def martin_close_condition(self, event):
         if self.calc_pnl(event) > self.martin_diff:
