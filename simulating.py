@@ -31,7 +31,7 @@ from strategy.bolingerband import BolingerBand
 from strategy.martin_rsi import MARTINRSI
 
 def simulating(events, manager):
-    progress = ProgressBar(events.qsize()).start()
+#    progress = ProgressBar(events.qsize()).start()
 
     for i in range(events.qsize()):
         # キューからTickEvent取り出し
@@ -43,7 +43,7 @@ def simulating(events, manager):
         # 最後は決済して終了
         check_and_close_last_order(event)
 
-        progress.update(i + 1)
+#        progress.update(i + 1)
 
 
 def check_and_close_last_order(event):

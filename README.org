@@ -4,7 +4,7 @@
   https://www.dukascopy.com/swiss/english/marketwatch/historical/
 
 * 依存ライブラリ
-  - pandas
+  - pandas(<=0.16.2) 0.17は動かない！！
   - matplotlib
   - requests
   - progressbar2
