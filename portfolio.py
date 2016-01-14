@@ -113,12 +113,15 @@ class PortfolioRemote(Portfolio):
             self.status["unrealized_pip"] = 0
 
     def print_status(self, event):
-        print("[%s] %s pos=%s RPnL=%s UPnL=%s UPip=%s" % (
+#        print("[%s] %s pos=%s RPnL=%s UPnL=%s UPip=%s" % (
+        print("[%s] %s pos=%s bid=%s cur=%s UPip=%s" % (        
             datetime.now().time(),
             event.instrument,
             self.status["position"],
-            round(self.status["realized_pnl"], 5),
-            round(self.status["unrealized_pnl"], 5),
+            round(event.bid, 5), 
+            round(self.status["opening_price"], 5), 
+#            round(self.status["realized_pnl"], 5),
+#            round(self.status["unrealized_pnl"], 5),
             round(self.status["unrealized_pip"], 2)
         ))
 

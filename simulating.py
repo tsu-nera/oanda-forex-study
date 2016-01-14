@@ -10,6 +10,8 @@ from progressbar import ProgressBar
 from timeseries import TimeSeries
 from manager import Manager
 
+from strategy.ols_time import OLSTIME
+from strategy.sma_knn import SMAKNN
 from strategy.bol_pip_rsi import BOLPIPRSI
 from strategy.sma_ols_pip import SMAOLSPIP
 from strategy.sma_bol_pip import SMABOLPIP
@@ -72,6 +74,8 @@ def plot_data():
     # plt.plot(strategy.sma_short_ts.index, strategy.sma_short_ts)
     # plt.plot(strategy.sma_ols_ts.index, strategy.sma_ols_ts)
 
+    # plt.plot(strategy.knn_ts.index, strategy.knn_ts)
+
     if not len(timeseries.buys) == 0:
         plt.plot(timeseries.buys.index, timeseries.buys, "g^", markersize=8)
     if not len(timeseries.sells) == 0:
@@ -99,7 +103,9 @@ if __name__ == "__main__":
 
     timeseries = TimeSeries(status)
 
-    strategy = MARTINRSI(status)
+    strategy = OLSTIME(status)    
+#    strategy = SMAKNN(status)
+#    strategy = MARTINRSI(status)
 #    strategy = SMABOLPIPRSI(status)
 #    strategy = SMABOLPIP(status)    
 #    strategy = SMAPIP(status)
@@ -124,8 +130,8 @@ if __name__ == "__main__":
     #    event_src = MetatraderCSVPriceHandler("EUR_USD", events)
     event_src = DukascopyCSVPriceHandler("EUR_USD", events,
 #                                         "data/EURUSD_Ticks_24.07.2015-3H.csv")
-#                                         "data/EURUSD_Ticks_28.07.2015-3H-2.csv")
-                                         "data/EURUSD_Ticks_29.07.2015-4H.csv")
+                                         "data/EURUSD_Ticks_28.07.2015-3H-2.csv")
+#                                         "data/EURUSD_Ticks_29.07.2015-4H.csv")
 
     event_src.stream_to_queue()
 

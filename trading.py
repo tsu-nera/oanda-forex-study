@@ -9,7 +9,8 @@ from portfolio import PortfolioRemote
 from timeseries import TimeSeries
 from manager import Manager
 
-from strategy.sma import SMA
+from strategy.ols_time import OLSTIME
+from strategy.sma2 import SMA2
 from strategy.sma_pip import SMAPIP
 from strategy.sma_bol_pip_rsi import SMABOLPIPRSI
 from strategy.martin2_rsi import MARTIN2RSI
@@ -41,7 +42,7 @@ if __name__ == "__main__":
 
     execution = OANDAExecutionHandler(status)
 
-    strategy = MARTIN2RSI(status)
+    strategy = OLSTIME(status)
 
     timeseries = TimeSeries(status)
 

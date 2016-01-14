@@ -1,19 +1,20 @@
 * Info
-  - pySthon3.xで動作
+  - pySthon3.x で動作
   - バックテスト用データは以下から取得.
   https://www.dukascopy.com/swiss/english/marketwatch/historical/
 
 * 依存ライブラリ
-  - pandas(<=0.16.2) 0.17は動かない！！
+  - pandas(<=0.16.2) 0.17 は動かない！！
   - matplotlib
   - requests
   - progressbar2
   - statsmodel
+  - sklearn
 
-* AWSへのインストールメモ
-  Amazon Linuxを借りる.
+* AWS へのインストールメモ
+  Amazon Linux を借りる.
   
-** Python3インストール
+** Python3 インストール
   -  http://wasure-memo.h-tsk.com/2015/03/centos-7python34.html#
 
 #+begin_src bash
@@ -39,8 +40,8 @@ pip3 install requests
 pip3 install progressbar2
 #+end_src
 
-*** statsmodelsのためのインストール
-    scipyがメモリ枯渇でインストールできない..
+*** statsmodels のためのインストール
+    scipy がメモリ枯渇でインストールできない..
     - http://stackoverflow.com/questions/19595944/trouble-installing-scipy-in-virtualenv-on-a-amazon-ec2-linux-micro-instance
 
 #+begin_src bash
@@ -58,10 +59,10 @@ git clone https://github.com/tsu-nera/oanda-forex-study.git
 #+end_src
 
 ** アプリ起動
-   nohupをつけないと、接続解除時にprocess kill される. 
+   nohup をつけないと、接続解除時に process kill される. 
 
    通常、スクリプト言語は、メッセージがバッファされるため、
-   -u オプションをつけることで、nohup.outに吐き出される.
+   -u オプションをつけることで、nohup.out に吐き出される.
 
 #+begin_src emacs-lisp
 $ nohup python3 -u trading.py > event.log &
