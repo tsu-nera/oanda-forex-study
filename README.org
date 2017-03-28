@@ -10,6 +10,7 @@
   - progressbar2
   - statsmodel
   - sklearn
+  - oandapy(pip で取得できるようになってた 17/03/28)
 
 * AWS へのインストールメモ
   Amazon Linux を借りる.
@@ -50,7 +51,6 @@ yum install atlas-sse3-devel gcc-gfortran
 #+end_src
 
 ** 環境変数の設定
-   ...
 
 ** アプリの取得
 
